@@ -13,6 +13,7 @@
     --paper: #ffffff;
     --red: #e10600;
     --soft: #f7b5b2;
+    --ink: #161616;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--paper); }
@@ -70,7 +71,8 @@
   .contact svg.line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 
   /* Sections */
-  main { max-width: 680px; }
+  main { max-width: 680px; color: var(--ink); }
+  main a { color: inherit; }
   section { display: none; }
   section.active { display: block; }
   h2 {
