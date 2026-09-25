@@ -7,7 +7,7 @@
 <meta name="description" content="Spencer Wood — books, photography, and writing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,700;0,6..72,800;1,6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #ffffff;
@@ -18,9 +18,9 @@
   html, body { background: var(--paper); }
   body {
     color: var(--red);
-    font-family: "Newsreader", Georgia, "Times New Roman", serif;
+    font-family: "Libre Franklin", "Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
@@ -40,9 +40,9 @@
   /* Masthead */
   header h1 {
     font-weight: 800;
-    font-size: 64px;
+    font-size: 56px;
     line-height: 0.95;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
   }
   header .tagline { margin-top: 14px; font-style: italic; font-weight: 500; font-size: 19px; }
@@ -55,12 +55,11 @@
     text-decoration: none;
     font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     width: fit-content;
     border-bottom: 2px solid transparent;
   }
-  nav a .num { display: inline-block; min-width: 2.4em; font-weight: 500; }
   nav a:hover { border-bottom-color: var(--soft); }
   nav a.active { border-bottom-color: var(--red); }
 
@@ -75,12 +74,12 @@
   h2 {
     font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 28px;
   }
   p + p { margin-top: 1em; }
-  .lede { font-size: 28px; line-height: 1.35; margin-bottom: 1em; }
+  .lede { font-size: 26px; line-height: 1.35; margin-bottom: 1em; }
 
   /* Lists (books, articles) */
   .list { list-style: none; border-top: 2px solid var(--red); }
@@ -125,7 +124,7 @@
   .viewer img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .viewer button {
     position: absolute; background: none; border: 0; color: var(--red);
-    font: 700 15px "Newsreader", Georgia, serif; letter-spacing: 0.14em;
+    font: 700 15px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; letter-spacing: 0.1em;
     text-transform: uppercase; cursor: pointer; padding: 16px;
   }
   .viewer .close { top: 8px; right: 8px; }
@@ -135,12 +134,11 @@
   @media (max-width: 860px) {
     .page { grid-template-columns: 1fr; gap: 40px; padding: 40px 16px 72px; }
     aside { position: static; }
-    header h1 { font-size: clamp(48px, 13vw, 64px); }
+    header h1 { font-size: clamp(44px, 12vw, 56px); }
     nav { flex-direction: row; flex-wrap: wrap; gap: 10px 22px; margin-top: 24px; }
-    nav a .num { min-width: 0; margin-right: 6px; }
     .contact { margin-top: 20px; }
-    body { font-size: 18px; }
-    .lede { font-size: 23px; }
+    body { font-size: 17px; }
+    .lede { font-size: 22px; }
     .photos { gap: 40px; }
     .viewer { padding: 16px; }
   }
@@ -157,10 +155,10 @@
     </header>
 
     <nav>
-      <a href="#about" data-tab="about"><span class="num">I.</span>About</a>
-      <a href="#books" data-tab="books"><span class="num">II.</span>Books</a>
-      <a href="#photography" data-tab="photography"><span class="num">III.</span>Photography</a>
-      <a href="#articles" data-tab="articles"><span class="num">IV.</span>Articles</a>
+      <a href="#about" data-tab="about">About</a>
+      <a href="#books" data-tab="books">Books</a>
+      <a href="#photography" data-tab="photography">Photography</a>
+      <a href="#articles" data-tab="articles">Articles</a>
     </nav>
 
     <div class="contact">
@@ -170,18 +168,18 @@
   </aside>
 
   <main>
-    <!-- I. ABOUT -->
+    <!-- ABOUT -->
     <section id="about">
-      <h2>I. About</h2>
+      <h2>About</h2>
       <!-- The first paragraph (class="lede") shows in larger type. Add or remove <p> paragraphs as you like. -->
       <p class="lede">[Opening line about you]</p>
       <p>[Paragraph]</p>
       <p>[Paragraph]</p>
     </section>
 
-    <!-- II. BOOKS -->
+    <!-- BOOKS -->
     <section id="books">
-      <h2>II. Books</h2>
+      <h2>Books</h2>
       <ul class="list">
         <li>
           <span class="title"><em>[Book title]</em></span>
@@ -192,16 +190,16 @@
       </ul>
     </section>
 
-    <!-- III. PHOTOGRAPHY -->
+    <!-- PHOTOGRAPHY -->
     <section id="photography">
-      <h2>III. Photography</h2>
+      <h2>Photography</h2>
       <div class="photos" id="photo-list"></div>
       <p class="small">[Optional note, or delete this line]</p>
     </section>
 
-    <!-- IV. ARTICLES -->
+    <!-- ARTICLES -->
     <section id="articles">
-      <h2>IV. Articles</h2>
+      <h2>Articles</h2>
       <ul class="list">
         <li>
           <span class="title">[Article title, or "Coming soon"]</span>
