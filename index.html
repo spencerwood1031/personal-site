@@ -148,7 +148,7 @@
     .row.start { align-items: flex-start; }
     .row.end { align-items: flex-end; }
     .row.center { align-items: center; }
-    .row figure { width: var(--wm); margin: 0; }
+    .row figure { width: 100%; max-width: none; margin: 0; }
     .viewer { padding: 16px; }
   }
 </style>
@@ -390,7 +390,6 @@
       const fig = document.createElement("figure");
       fig.className = p.shape;
       fig.style.setProperty("--w", w + "%");
-      fig.style.setProperty("--wm", (p.shape === "tall" ? Math.max(w * 2, 64) : Math.max(w, 72)) + "%");
       for (const k of ["ml", "mr", "mt"]) if (gap[k]) fig.style.setProperty("--" + k, gap[k] + "%");
       const img = document.createElement("img");
       img.src = p.src; img.alt = ""; img.loading = "lazy";
