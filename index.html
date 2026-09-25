@@ -95,23 +95,41 @@
   .list a { text-decoration: none; }
   .list a:hover .title { text-decoration: underline; }
 
-  /* Photography: one large photo at a time, natural shape */
-  .photos { display: flex; flex-direction: column; gap: 72px; }
-  .photos figure { margin: 0; }
-  .photos img {
-    display: block;
-    max-width: 100%;
-    max-height: 85vh;
-    width: auto; height: auto;
-    cursor: zoom-in;
-  }
-  .photos figcaption { font-size: 15px; font-weight: 500; margin-top: 10px; }
-  .placeholder {
-    aspect-ratio: 3 / 2;
-    border: 1px solid var(--soft);
+  /* Photography: a gallery with an uneven, magazine-like rhythm */
+  main:has(#photography.active) { max-width: none; }
+  .photos { display: flex; flex-direction: column; gap: 120px; }
+  .row { display: flex; gap: 40px; align-items: flex-start; }
+  .row figure { margin: 0; }
+  .photos img, .photos .frame { display: block; width: 100%; height: auto; }
+  .photos img { cursor: zoom-in; }
+  .photos .frame {
+    background: rgba(225, 6, 0, 0.12);
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-style: italic; font-weight: 500;
+    font-size: 14px; font-style: italic; font-weight: 500;
   }
+  .frame.wide { aspect-ratio: 3 / 2; }
+  .frame.tall { aspect-ratio: 2 / 3; }
+  .photos figcaption { font-size: 15px; font-weight: 500; margin-top: 10px; }
+
+  /* Wide photos: full width, or pushed left/right with empty space beside */
+  .row.wide-full figure { width: 100%; }
+  .row.wide-left figure { width: 72%; }
+  .row.wide-right { justify-content: flex-end; }
+  .row.wide-right figure { width: 72%; }
+  /* Tall photos: a pair side by side, a staggered pair, or one alone */
+  .row.tall-pair figure { width: calc(50% - 20px); }
+  .row.tall-stagger { justify-content: space-between; }
+  .row.tall-stagger figure { width: 40%; }
+  .row.tall-stagger figure:last-child { margin-top: 22%; }
+  .row.tall-left figure { width: 46%; margin-left: 8%; }
+  .row.tall-right { justify-content: flex-end; }
+  .row.tall-right figure { width: 46%; margin-right: 8%; }
+
+  /* Photos fade in gently as you scroll to them */
+  .row figure { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .row figure.seen { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
+
   .small { font-size: 16px; font-weight: 500; margin-top: 32px; }
 
   /* Full-screen viewer */
@@ -139,7 +157,9 @@
     .contact { margin-top: 20px; }
     body { font-size: 17px; }
     .lede { font-size: 22px; }
-    .photos { gap: 40px; }
+    .photos { gap: 48px; }
+    .row { flex-direction: column; gap: 48px; }
+    .row figure, .row.tall-stagger figure { width: 100% !important; margin: 0 !important; }
     .viewer { padding: 16px; }
   }
 </style>
@@ -227,32 +247,81 @@
 
 <script>
   // ---- PHOTOS ----
-  // Upload images to a folder called "photos" in your GitHub repo,
-  // then list them here, in the order you want them shown. Caption is optional.
+  // Put image files in a folder called "photos", then list them here in the
+  // order you want them shown. The page works out on its own whether each photo
+  // is vertical or horizontal. Caption is optional.
   const PHOTOS = [
     // { src: "photos/lisbon.jpg", caption: "Lisbon, 2025" },
   ];
 
+  // Until photos are added, show empty frames: 15 horizontal, 15 vertical.
+  const SAMPLE = "WTTWTW".repeat(5);
+
   const list = document.getElementById("photo-list");
-  if (PHOTOS.length === 0) {
-    const d = document.createElement("div");
-    d.className = "placeholder";
-    d.textContent = "Photos coming soon";
-    list.appendChild(d);
-  } else {
-    PHOTOS.forEach((p, i) => {
-      const fig = document.createElement("figure");
+
+  function getShape(src) {
+    return new Promise(done => {
+      const im = new Image();
+      im.onload = () => done(im.naturalHeight > im.naturalWidth ? "tall" : "wide");
+      im.onerror = () => done("wide");
+      im.src = src;
+    });
+  }
+
+  function makeFigure(item) {
+    const fig = document.createElement("figure");
+    if (item.src) {
       const img = document.createElement("img");
-      img.src = p.src; img.alt = p.caption || ""; img.loading = "lazy";
-      img.addEventListener("click", () => openViewer(i));
+      img.src = item.src; img.alt = item.caption || ""; img.loading = "lazy";
+      img.addEventListener("click", () => openViewer(item.index));
       fig.appendChild(img);
-      if (p.caption) {
+      if (item.caption) {
         const cap = document.createElement("figcaption");
-        cap.textContent = p.caption;
+        cap.textContent = item.caption;
         fig.appendChild(cap);
       }
-      list.appendChild(fig);
-    });
+    } else {
+      const f = document.createElement("div");
+      f.className = "frame " + item.shape;
+      f.textContent = "[Photo " + (item.index + 1) + "]";
+      fig.appendChild(f);
+    }
+    return fig;
+  }
+
+  // Groups photos into rows, rotating through different arrangements
+  function layout(items) {
+    const wideStyles = ["wide-full", "wide-right", "wide-left"];
+    const pairStyles = ["tall-pair", "tall-stagger"];
+    const soloStyles = ["tall-right", "tall-left"];
+    let w = 0, p = 0, s = 0;
+    for (let i = 0; i < items.length; i++) {
+      const row = document.createElement("div");
+      let group;
+      if (items[i].shape === "wide") {
+        row.className = "row " + wideStyles[w++ % 3];
+        group = [items[i]];
+      } else if (items[i + 1] && items[i + 1].shape === "tall") {
+        row.className = "row " + pairStyles[p++ % 2];
+        group = [items[i], items[++i]];
+      } else {
+        row.className = "row " + soloStyles[s++ % 2];
+        group = [items[i]];
+      }
+      group.forEach(it => row.appendChild(makeFigure(it)));
+      list.appendChild(row);
+    }
+    const watcher = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("seen"); watcher.unobserve(e.target); }
+    }), { threshold: 0.15 });
+    list.querySelectorAll("figure").forEach(f => watcher.observe(f));
+  }
+
+  if (PHOTOS.length === 0) {
+    layout([...SAMPLE].map((c, i) => ({ shape: c === "T" ? "tall" : "wide", index: i })));
+  } else {
+    Promise.all(PHOTOS.map(p => getShape(p.src))).then(shapes =>
+      layout(PHOTOS.map((p, i) => ({ ...p, shape: shapes[i], index: i }))));
   }
 
   // ---- FULL-SCREEN VIEWER ----
