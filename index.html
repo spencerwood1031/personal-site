@@ -97,41 +97,22 @@
   .list a { text-decoration: none; }
   .list a:hover .title { text-decoration: underline; }
 
-  /* Photography: a gallery with an uneven, magazine-like rhythm */
+  /* Photography: a loose, hand-arranged gallery. Sizes and positions are set per photo in ROWS below. */
   main:has(#photography.active) { max-width: none; }
-  .photos { display: flex; flex-direction: column; gap: 96px; }
-  .row { display: flex; gap: 32px; align-items: flex-start; }
-  .row figure { margin: 0; }
-  .photos img, .photos .frame { display: block; width: 100%; height: auto; }
-  .photos img { cursor: zoom-in; }
-  .photos .frame {
-    background: rgba(225, 6, 0, 0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-style: italic; font-weight: 500;
-  }
-  .frame.wide { aspect-ratio: 3 / 2; }
-  .frame.tall { aspect-ratio: 2 / 3; }
+  .photos { display: flex; flex-direction: column; gap: 110px; }
+  .row { display: flex; align-items: flex-start; }
+  .row.start { justify-content: flex-start; }
+  .row.end { justify-content: flex-end; }
+  .row.center { justify-content: center; }
+  .row figure { margin: 0; width: var(--w); margin-left: var(--ml, 0); margin-right: var(--mr, 0); margin-top: var(--mt, 0); }
+  .photos img { display: block; width: 100%; height: auto; cursor: zoom-in; }
   .photos figcaption { font-size: 13px; margin-top: 10px; }
 
-  /* Wide photos: full width, or pushed left/right with empty space beside */
-  .row.wide-full figure { width: 100%; }
-  .row.wide-left figure { width: 72%; }
-  .row.wide-right { justify-content: flex-end; }
-  .row.wide-right figure { width: 72%; }
-  /* Tall photos: a pair side by side, a staggered pair, or one alone */
-  .row.tall-pair figure { width: calc(50% - 16px); }
-  .row.tall-stagger { justify-content: space-between; }
-  .row.tall-stagger figure { width: 40%; }
-  .row.tall-stagger figure:last-child { margin-top: 22%; }
-  .row.tall-left figure { width: 46%; margin-left: 8%; }
-  .row.tall-right { justify-content: flex-end; }
-  .row.tall-right figure { width: 46%; margin-right: 8%; }
-
-  /* Photos fade in gently as you scroll to them */
   /* No photo taller than the screen */
   .row figure.wide { max-width: calc(84vh * 1.5); }
   .row figure.tall { max-width: calc(84vh / 1.5); }
 
+  /* Photos fade in gently as you scroll to them */
   .row figure { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
   .row figure.seen { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
@@ -162,9 +143,12 @@
     nav { flex-direction: row; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; }
     body { font-size: 15px; }
     .lede { font-size: 19px; }
-    .photos { gap: 48px; }
-    .row { flex-direction: column; gap: 48px; }
-    .row figure, .row.tall-stagger figure { width: 100% !important; margin: 0 !important; }
+    .photos { gap: 56px; }
+    .row { flex-direction: column; gap: 56px; }
+    .row.start { align-items: flex-start; }
+    .row.end { align-items: flex-end; }
+    .row.center { align-items: center; }
+    .row figure { width: var(--wm); margin: 0; }
     .viewer { padding: 16px; }
   }
 </style>
@@ -366,104 +350,60 @@
 
 <script>
   // ---- PHOTOS ----
-  // Put image files in a folder called "photos", then list them here in the
-  // order you want them shown. "shape" (tall or wide) is optional; without it
-  // the page works it out on its own. Caption is optional.
-  const PHOTOS = [
-    { src: "photos/01.jpg", shape: "wide" },
-    { src: "photos/02.jpg", shape: "wide" },
-    { src: "photos/03.jpg", shape: "tall" },
-    { src: "photos/04.jpg", shape: "tall" },
-    { src: "photos/05.jpg", shape: "wide" },
-    { src: "photos/06.jpg", shape: "wide" },
-    { src: "photos/07.jpg", shape: "tall" },
-    { src: "photos/08.jpg", shape: "wide" },
-    { src: "photos/09.jpg", shape: "wide" },
-    { src: "photos/10.jpg", shape: "wide" },
-    { src: "photos/11.jpg", shape: "tall" },
-    { src: "photos/12.jpg", shape: "tall" },
-    { src: "photos/13.jpg", shape: "wide" },
-    { src: "photos/14.jpg", shape: "wide" },
-    { src: "photos/15.jpg", shape: "tall" },
-    { src: "photos/16.jpg", shape: "wide" },
-    { src: "photos/17.jpg", shape: "wide" },
-    { src: "photos/18.jpg", shape: "wide" },
-    { src: "photos/19.jpg", shape: "tall" },
-    { src: "photos/20.jpg", shape: "wide" },
-    { src: "photos/21.jpg", shape: "wide" },
-    // { src: "photos/lisbon.jpg", caption: "Lisbon, 2025" },
+  // Image files live in the "photos" folder. Each row below is laid out left to right:
+  //   ["start" | "end" | "center",  [photo number, width %, {ml, mr, mt: extra space %}], ...]
+  // "start" pushes the row to the left, "end" to the right. mt drops a photo lower.
+  const TALL = [3, 4, 7, 11, 12, 15, 19];   // vertical photos
+  const ROWS = [
+    ["start",  [1, 78]],
+    ["end",    [2, 46]],
+    ["start",  [11, 30, {ml: 8}], [7, 38, {ml: 12, mt: 20}]],
+    ["start",  [5, 100]],
+    ["start",  [6, 50], [15, 26, {ml: 10, mt: 14}]],
+    ["end",    [12, 28, {mt: 10}], [9, 54, {ml: 5}]],
+    ["start",  [3, 36, {ml: 12}]],
+    ["end",    [13, 84]],
+    ["center", [14, 34]],
+    ["start",  [18, 68]],
+    ["start",  [4, 32], [10, 52, {ml: 8, mt: 16}]],
+    ["end",    [17, 58, {mr: 6}]],
+    ["start",  [20, 60]],
+    ["end",    [19, 36, {mr: 14}]],
+    ["start",  [16, 50, {ml: 4}]],
+    ["start",  [8, 100]],
+    ["end",    [21, 64]],
   ];
 
-  // Until photos are added, show empty frames: 14 horizontal, 7 vertical.
-  const SAMPLE = "WW TT WW T WWW TT WW T WWW T WW".replace(/ /g, "");
+  // Photos in the order they appear (used by the full-screen viewer)
+  const PHOTOS = ROWS.flatMap(r => r.slice(1)).map(([n]) => ({
+    src: "photos/" + String(n).padStart(2, "0") + ".jpg",
+    shape: TALL.includes(n) ? "tall" : "wide",
+  }));
 
   const list = document.getElementById("photo-list");
-
-  function getShape(src) {
-    return new Promise(done => {
-      const im = new Image();
-      im.onload = () => done(im.naturalHeight > im.naturalWidth ? "tall" : "wide");
-      im.onerror = () => done("wide");
-      im.src = src;
-    });
-  }
-
-  function makeFigure(item) {
-    const fig = document.createElement("figure");
-    fig.className = item.shape;
-    if (item.src) {
+  let index = 0;
+  ROWS.forEach(([align, ...items]) => {
+    const row = document.createElement("div");
+    row.className = "row " + align;
+    items.forEach(([n, w, gap = {}]) => {
+      const i = index++, p = PHOTOS[i];
+      const fig = document.createElement("figure");
+      fig.className = p.shape;
+      fig.style.setProperty("--w", w + "%");
+      fig.style.setProperty("--wm", (p.shape === "tall" ? Math.max(w * 2, 64) : Math.max(w, 72)) + "%");
+      for (const k of ["ml", "mr", "mt"]) if (gap[k]) fig.style.setProperty("--" + k, gap[k] + "%");
       const img = document.createElement("img");
-      img.src = item.src; img.alt = item.caption || ""; img.loading = "lazy";
-      img.addEventListener("click", () => openViewer(item.index));
+      img.src = p.src; img.alt = ""; img.loading = "lazy";
+      img.addEventListener("click", () => openViewer(i));
       fig.appendChild(img);
-      if (item.caption) {
-        const cap = document.createElement("figcaption");
-        cap.textContent = item.caption;
-        fig.appendChild(cap);
-      }
-    } else {
-      const f = document.createElement("div");
-      f.className = "frame " + item.shape;
-      f.textContent = "[Photo " + (item.index + 1) + "]";
-      fig.appendChild(f);
-    }
-    return fig;
-  }
-
-  // Groups photos into rows, rotating through different arrangements
-  function layout(items) {
-    const wideStyles = ["wide-full", "wide-right", "wide-left"];
-    const pairStyles = ["tall-pair", "tall-stagger"];
-    const soloStyles = ["tall-right", "tall-left"];
-    let w = 0, p = 0, s = 0;
-    for (let i = 0; i < items.length; i++) {
-      const row = document.createElement("div");
-      let group;
-      if (items[i].shape === "wide") {
-        row.className = "row " + wideStyles[w++ % 3];
-        group = [items[i]];
-      } else if (items[i + 1] && items[i + 1].shape === "tall") {
-        row.className = "row " + pairStyles[p++ % 2];
-        group = [items[i], items[++i]];
-      } else {
-        row.className = "row " + soloStyles[s++ % 2];
-        group = [items[i]];
-      }
-      group.forEach(it => row.appendChild(makeFigure(it)));
-      list.appendChild(row);
-    }
-    const watcher = new IntersectionObserver(entries => entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add("seen"); watcher.unobserve(e.target); }
-    }), { threshold: 0.15 });
-    list.querySelectorAll("figure").forEach(f => watcher.observe(f));
-  }
-
-  if (PHOTOS.length === 0) {
-    layout([...SAMPLE].map((c, i) => ({ shape: c === "T" ? "tall" : "wide", index: i })));
-  } else {
-    Promise.all(PHOTOS.map(p => p.shape || getShape(p.src))).then(shapes =>
-      layout(PHOTOS.map((p, i) => ({ ...p, shape: shapes[i], index: i }))));
-  }
+      row.appendChild(fig);
+    });
+    list.appendChild(row);
+  });
+  const watcher = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("seen"); watcher.unobserve(e.target); }
+  }), { threshold: 0.15 });
+  list.querySelectorAll("figure").forEach(f => watcher.observe(f));
 
   // ---- FULL-SCREEN VIEWER ----
   const viewer = document.getElementById("viewer");
