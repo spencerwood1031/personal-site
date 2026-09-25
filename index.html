@@ -248,9 +248,30 @@
 <script>
   // ---- PHOTOS ----
   // Put image files in a folder called "photos", then list them here in the
-  // order you want them shown. The page works out on its own whether each photo
-  // is vertical or horizontal. Caption is optional.
+  // order you want them shown. "shape" (tall or wide) is optional; without it
+  // the page works it out on its own. Caption is optional.
   const PHOTOS = [
+    { src: "photos/01.jpg", shape: "wide" },
+    { src: "photos/02.jpg", shape: "wide" },
+    { src: "photos/03.jpg", shape: "tall" },
+    { src: "photos/04.jpg", shape: "tall" },
+    { src: "photos/05.jpg", shape: "wide" },
+    { src: "photos/06.jpg", shape: "wide" },
+    { src: "photos/07.jpg", shape: "tall" },
+    { src: "photos/08.jpg", shape: "wide" },
+    { src: "photos/09.jpg", shape: "wide" },
+    { src: "photos/10.jpg", shape: "wide" },
+    { src: "photos/11.jpg", shape: "tall" },
+    { src: "photos/12.jpg", shape: "tall" },
+    { src: "photos/13.jpg", shape: "wide" },
+    { src: "photos/14.jpg", shape: "wide" },
+    { src: "photos/15.jpg", shape: "tall" },
+    { src: "photos/16.jpg", shape: "wide" },
+    { src: "photos/17.jpg", shape: "wide" },
+    { src: "photos/18.jpg", shape: "wide" },
+    { src: "photos/19.jpg", shape: "tall" },
+    { src: "photos/20.jpg", shape: "wide" },
+    { src: "photos/21.jpg", shape: "wide" },
     // { src: "photos/lisbon.jpg", caption: "Lisbon, 2025" },
   ];
 
@@ -320,7 +341,7 @@
   if (PHOTOS.length === 0) {
     layout([...SAMPLE].map((c, i) => ({ shape: c === "T" ? "tall" : "wide", index: i })));
   } else {
-    Promise.all(PHOTOS.map(p => getShape(p.src))).then(shapes =>
+    Promise.all(PHOTOS.map(p => p.shape || getShape(p.src))).then(shapes =>
       layout(PHOTOS.map((p, i) => ({ ...p, shape: shapes[i], index: i }))));
   }
 
