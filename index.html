@@ -7,7 +7,7 @@
 <meta name="description" content="Spencer Wood — books, photography, and writing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #ffffff;
@@ -19,7 +19,7 @@
   body {
     color: var(--red);
     font-family: "Libre Franklin", "Franklin Gothic Medium", "Franklin Gothic", Arial, sans-serif;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 15px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
@@ -81,33 +81,24 @@
     margin-bottom: 22px;
   }
   p + p { margin-top: 1em; }
-  .lede { font-size: 20px; line-height: 1.35; margin-bottom: 1em; }
+  .lede { font-weight: 500; font-size: 20px; line-height: 1.35; margin-bottom: 1em; }
 
-  /* Lists (books, articles) */
-  .list { list-style: none; border-top: 2px solid var(--red); }
+  /* Lists (books, articles): a compact index, like a table of contents */
+  .list { list-style: none; border-top: 1px solid var(--red); padding-top: 6px; }
   .list li {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4px 16px;
-    padding: 13px 0;
-    border-bottom: 1px solid var(--soft);
-  }
-  .list .meta { font-weight: 500; font-size: 14px; white-space: nowrap; align-self: baseline; }
-  .list .note { grid-column: 1 / -1; font-weight: 500; font-size: 14px; font-style: italic; }
-  /* Books: a compact index, like a table of contents */
-  .books { border-top: 1px solid var(--red); padding-top: 6px; }
-  .books li {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     align-items: baseline;
+    gap: 2px 16px;
     padding: 5px 0;
-    border-bottom: 0;
   }
-  .books .title em { font-weight: 400; font-size: 14px; }
-  .books .meta {
+  .list .title { font-size: 14px; }
+  .list .title em { font-weight: 400; }
+  .list .meta {
     font-weight: 500; font-size: 10.5px;
     letter-spacing: 0.12em; text-transform: uppercase;
-    white-space: normal;
   }
+  .list .note { grid-column: 1 / -1; font-size: 13px; font-style: italic; }
   .list a { text-decoration: none; }
   .list a:hover .title { text-decoration: underline; }
 
@@ -125,7 +116,7 @@
   }
   .frame.wide { aspect-ratio: 3 / 2; }
   .frame.tall { aspect-ratio: 2 / 3; }
-  .photos figcaption { font-size: 13px; font-weight: 500; margin-top: 10px; }
+  .photos figcaption { font-size: 13px; margin-top: 10px; }
 
   /* Wide photos: full width, or pushed left/right with empty space beside */
   .row.wide-full figure { width: 100%; }
@@ -150,7 +141,7 @@
   .row figure.seen { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
 
-  .small { font-size: 14px; font-weight: 500; margin-top: 32px; }
+  .small { font-size: 14px; margin-top: 32px; }
 
   /* Full-screen viewer */
   .viewer {
@@ -177,8 +168,8 @@
     .contact { margin-top: 20px; }
     body { font-size: 15px; }
     .lede { font-size: 19px; }
-    .books li { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 4px 12px; }
-    .books .meta { font-size: 10px; letter-spacing: 0.06em; }
+    .list li { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2px 12px; }
+    .list .meta { font-size: 10px; letter-spacing: 0.06em; }
     .photos { gap: 48px; }
     .row { flex-direction: column; gap: 48px; }
     .row figure, .row.tall-stagger figure { width: 100% !important; margin: 0 !important; }
