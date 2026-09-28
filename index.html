@@ -412,6 +412,9 @@
   }), { threshold: 0.15 });
   list.querySelectorAll("figure").forEach(f => watcher.observe(f));
 
+  // ---- Links to other websites open in a new tab ----
+  document.querySelectorAll('a[href^="http"]').forEach(a => { a.target = "_blank"; a.rel = "noopener"; });
+
   // ---- EMAIL: copy the address instead of opening a mail app ----
   const emailLink = document.getElementById("email-link");
   emailLink.addEventListener("click", e => {
