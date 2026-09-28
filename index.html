@@ -70,6 +70,14 @@
   .contact a { display: block; line-height: 0; transition: opacity 0.15s; }
   .contact a[href]:hover { opacity: 0.55; }
   .contact svg { width: 17px; height: 17px; fill: currentColor; }
+  .contact a { position: relative; }
+  .copied {
+    position: absolute; left: 0; top: calc(100% + 6px);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    line-height: 1; white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .copied.show { opacity: 1; }
   .contact svg.line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 
   /* Sections */
@@ -161,7 +169,7 @@
       <h1>Spencer<br>Wood</h1>
       <!-- Social links. Instagram and X have no link yet: add href="..." to turn them on. -->
       <div class="contact">
-        <a href="mailto:spencer.wood1031@gmail.com" aria-label="Email" title="Email">
+        <a href="mailto:spencer.wood1031@gmail.com" id="email-link" aria-label="Email" title="Email">
           <svg class="line" viewBox="0 0 24 24"><rect x="2" y="4.5" width="20" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
         </a>
         <a aria-label="Instagram" title="Instagram">
@@ -403,6 +411,20 @@
     if (e.isIntersecting) { e.target.classList.add("seen"); watcher.unobserve(e.target); }
   }), { threshold: 0.15 });
   list.querySelectorAll("figure").forEach(f => watcher.observe(f));
+
+  // ---- EMAIL: copy the address instead of opening a mail app ----
+  const emailLink = document.getElementById("email-link");
+  emailLink.addEventListener("click", e => {
+    if (!navigator.clipboard) return;   // fall back to opening the mail app
+    e.preventDefault();
+    navigator.clipboard.writeText(emailLink.href.replace("mailto:", "")).then(() => {
+      let tip = emailLink.querySelector(".copied");
+      if (!tip) { tip = document.createElement("span"); tip.className = "copied"; tip.textContent = "Copied"; emailLink.appendChild(tip); }
+      tip.classList.add("show");
+      clearTimeout(tip.timer);
+      tip.timer = setTimeout(() => tip.classList.remove("show"), 1600);
+    }, () => { location.href = emailLink.href; });
+  });
 
   // ---- FULL-SCREEN VIEWER ----
   const viewer = document.getElementById("viewer");
