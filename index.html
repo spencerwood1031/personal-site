@@ -34,16 +34,17 @@
   /* Layout: sidebar left, content right */
   .page {
     display: grid;
-    grid-template-columns: 210px 1fr;
+    grid-template-columns: max-content minmax(0, 1fr);
     gap: 56px;
-    max-width: 1400px;
-    margin: 0;
-    padding: 40px 32px 96px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 48px 96px;
   }
-  aside { position: sticky; top: 40px; align-self: start; }
+  aside { position: sticky; top: 56px; align-self: start; }
 
   /* Masthead */
   header h1 {
+    white-space: nowrap;
     font-weight: 800;
     font-size: 38px;
     line-height: 0.95;
@@ -81,7 +82,7 @@
   .contact svg.line { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 
   /* Sections */
-  main { max-width: 680px; color: var(--ink); }
+  main { max-width: 600px; color: var(--ink); }
   main a { color: inherit; }
   section { display: none; }
   section.active { display: block; }
@@ -149,7 +150,7 @@
   @media (max-width: 860px) {
     .page { grid-template-columns: 1fr; gap: 36px; padding: 32px 16px 72px; }
     aside { position: static; }
-    header h1 { font-size: clamp(34px, 10vw, 40px); }
+    header h1 { font-size: clamp(26px, 8.4vw, 38px); }
     nav { flex-direction: row; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; }
     body { font-size: 15px; }
     .lede { font-size: 19px; }
@@ -168,7 +169,7 @@
 
   <aside>
     <header>
-      <h1>Spencer<br>Wood</h1>
+      <h1>Spencer Wood</h1>
       <!-- Social links. Instagram and X have no link yet: add href="..." to turn them on. -->
       <div class="contact">
         <a href="mailto:spencer.wood1031@gmail.com" id="email-link" aria-label="Email" title="Email">
