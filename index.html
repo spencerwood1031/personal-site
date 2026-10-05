@@ -395,30 +395,42 @@
     img.onload = () => ok(img); img.onerror = () => ok(null);
     img.src = src;
   });
+  // Each book's covers are loaded once and remembered
+  const coverCache = new Map();
+  const coversFor = book => {
+    if (!coverCache.has(book)) {
+      const n = book.series || 1;
+      coverCache.set(book, Promise.all([...Array(n)].map((_, k) => loadImg(coverSrc(book, k))))
+        .then(list => list.filter(Boolean)));
+    }
+    return coverCache.get(book);
+  };
   let showing = null, timer = null;
   async function showBook(book, li) {
     document.querySelectorAll(".shelf-list li.on").forEach(x => x.classList.remove("on"));
     li.classList.add("on");
     if (showing === book) return;
     showing = book;
+    // Keep the current cover on screen until this book's cover is ready
+    const imgs = await coversFor(book);
+    if (showing !== book) return;
     clearInterval(timer);
     const big = preview.querySelector(".cover");
     const layers = big.querySelectorAll(".layer");
     const dots = preview.querySelector(".pv-dots");
-    big.classList.remove("has-img");
-    layers.forEach(l => { l.classList.remove("show"); l.style.backgroundImage = ""; });
-    big.querySelector(".ph").textContent = book.title;
     preview.querySelector(".pv-title").textContent = book.title;
     preview.querySelector(".pv-author").textContent = book.author;
+    big.querySelector(".ph").textContent = book.title;
     dots.innerHTML = "";
-
-    const n = book.series || 1;
-    const imgs = (await Promise.all([...Array(n)].map((_, k) => loadImg(coverSrc(book, k))))).filter(Boolean);
-    if (showing !== book || !imgs.length) return;
-    big.classList.add("has-img");
+    // Switch books instantly; the slow fade is only for covers within a series
+    layers.forEach(l => { l.style.transition = "none"; l.classList.remove("show"); l.style.backgroundImage = ""; });
+    big.classList.toggle("has-img", imgs.length > 0);
+    if (!imgs.length) return;
     let i = 0, front = 0;
     layers[0].style.backgroundImage = "url(" + imgs[0].src + ")";
     layers[0].classList.add("show");
+    void big.offsetWidth;
+    layers.forEach(l => { l.style.transition = ""; });
     if (imgs.length > 1) {
       imgs.forEach(() => dots.appendChild(document.createElement("span")));
       dots.children[0].classList.add("on");
@@ -448,6 +460,11 @@
         ul.appendChild(li);
         if (!firstShown) { showBook(book, li); firstShown = true; }
       });
+  }
+
+  // Load every cover in the background (computer screens only) so hovering never waits
+  if (matchMedia("(min-width: 861px)").matches) {
+    addEventListener("load", () => BOOKS.forEach(coversFor));
   }
 
   // ---- Links to other websites open in a new tab ----
