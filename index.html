@@ -474,12 +474,13 @@
         const d = document.createElement("span"); d.className = "dots";
         const a = document.createElement("span"); a.className = "a"; a.textContent = book.author;
         li.append(t, d, a);
-        li.addEventListener("mouseenter", () => { if (!pinned) showBook(book, li); });
-        // Clicking a book keeps it in the preview until it's clicked again (or another is clicked)
+        li.addEventListener("mouseenter", () => showBook(book, li));
+        // Clicking a book makes it the one the preview returns to when the mouse leaves the list.
+        // Clicking it again clears that.
         li.addEventListener("click", () => {
           document.querySelectorAll(".shelf-list li.pinned").forEach(x => x.classList.remove("pinned"));
-          if (pinned === book) { pinned = null; return; }
-          pinned = book;
+          if (pinned && pinned.book === book) { pinned = null; return; }
+          pinned = { book, li };
           li.classList.add("pinned");
           showBook(book, li);
         });
@@ -487,6 +488,11 @@
         if (!firstShown) { showBook(book, li); firstShown = true; }
       });
   }
+
+  // When the mouse leaves the list, go back to the clicked book (if any)
+  document.querySelector(".shelf-lists").addEventListener("mouseleave", () => {
+    if (pinned) showBook(pinned.book, pinned.li);
+  });
 
   // Load every cover in the background (computer screens only) so hovering never waits
   if (matchMedia("(min-width: 861px)").matches) {
