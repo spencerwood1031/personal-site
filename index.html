@@ -122,6 +122,7 @@
     padding: 18px; text-align: center; font-style: italic; font-size: 15px;
   }
   .cover.big.has-img .ph { display: none; }
+  .cover.big.has-img { cursor: zoom-in; }
   /* Two stacked layers so the next cover can fade in over the current one */
   .cover.big .layer {
     position: absolute; inset: 0; background: center bottom / contain no-repeat;
@@ -186,6 +187,7 @@
   .viewer .close { top: 8px; right: 8px; }
   .viewer .prev { left: 8px; top: 50%; transform: translateY(-50%); }
   .viewer .next { right: 8px; top: 50%; transform: translateY(-50%); }
+  .viewer.single .prev, .viewer.single .next { display: none; }
 
   @media (max-width: 860px) {
     .page { grid-template-columns: 1fr; gap: 36px; padding: 32px 16px 72px; }
@@ -524,6 +526,7 @@
     current = (i + PHOTOS.length) % PHOTOS.length;
     vImg.src = PHOTOS[current].src;
     vImg.alt = PHOTOS[current].caption || "";
+    viewer.classList.remove("single");
     viewer.classList.add("open");
   }
   function closeViewer() { viewer.classList.remove("open"); }
@@ -533,8 +536,18 @@
   document.addEventListener("keydown", e => {
     if (!viewer.classList.contains("open")) return;
     if (e.key === "Escape") closeViewer();
+    if (viewer.classList.contains("single")) return;
     if (e.key === "ArrowLeft") openViewer(current - 1);
     if (e.key === "ArrowRight") openViewer(current + 1);
+  });
+
+  // Clicking the big book cover opens it full-screen (no arrows: just that cover)
+  document.querySelector(".cover.big").addEventListener("click", () => {
+    const layer = document.querySelector(".cover.big .layer.show");
+    const m = layer && layer.style.backgroundImage.match(/url\("?(.*?)"?\)/);
+    if (!m) return;
+    vImg.src = m[1]; vImg.alt = "";
+    viewer.classList.add("open", "single");
   });
 
   // ---- TABS ----
