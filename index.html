@@ -116,7 +116,12 @@
   }
   .cover.has-img { color: transparent; }
   .shelf-preview { position: sticky; top: 56px; }
-  .pv-title { margin-top: 14px; font-style: italic; font-size: 15px; }
+  .cover.big { transition: opacity 0.25s ease; }
+  .cover.big.fade { opacity: 0; }
+  .pv-dots { display: flex; gap: 6px; margin-top: 10px; min-height: 6px; }
+  .pv-dots span { width: 6px; height: 6px; border-radius: 50%; background: #d6d6d6; }
+  .pv-dots span.on { background: var(--red); }
+  .pv-title { margin-top: 10px; font-style: italic; font-size: 15px; }
   .pv-author { color: var(--muted); font-size: 14px; }
   .intro { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
   .list { list-style: none; }
@@ -243,6 +248,7 @@
         </div>
         <aside class="shelf-preview" id="shelf-preview" aria-hidden="true">
           <div class="cover big"></div>
+          <div class="pv-dots"></div>
           <p class="pv-title"></p>
           <p class="pv-author"></p>
         </aside>
@@ -349,19 +355,19 @@
       { title: "Ender's Game", author: "Orson Scott Card" },
       { title: "Fooled by Randomness", author: "Nassim Nicholas Taleb" },
       { title: "Greenlights", author: "Matthew McConaughey" },
-      { title: "Harry Potter Series", author: "J.K. Rowling" },
-      { title: "The Hunger Games Series", author: "Suzanne Collins" },
+      { title: "Harry Potter Series", author: "J.K. Rowling", series: 7 },
+      { title: "The Hunger Games Series", author: "Suzanne Collins", series: 3 },
       { title: "In Cold Blood", author: "Truman Capote" },
       { title: "The Kite Runner", author: "Khaled Hosseini" },
       { title: "The Laws of Trading", author: "Agustin Lebron" },
       { title: "Liar's Poker", author: "Michael Lewis" },
       { title: "Meditations", author: "Marcus Aurelius" },
-      { title: "The Neapolitan Novels", author: "Elena Ferrante" },
+      { title: "The Neapolitan Novels", author: "Elena Ferrante", series: 4 },
       { title: "Open", author: "Andre Agassi" },
       { title: "The Pigeon", author: "Patrick Süskind" },
       { title: "The Plunge", author: "Chris Ballard" },
       { title: "The Psychology of Money", author: "Morgan Housel" },
-      { title: "Red Rising Saga", author: "Pierce Brown" },
+      { title: "Red Rising Saga", author: "Pierce Brown", series: 6 },
       { title: "The Secret History", author: "Donna Tartt" },
       { title: "The Stranger", author: "Albert Camus" },
       { title: "Superforecasting", author: "Philip Tetlock" },
@@ -373,21 +379,46 @@
   const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const sortKey = t => t.replace(/^(The|A|An) /, "").toLowerCase();
   const preview = document.getElementById("shelf-preview");
-  function setCover(el, book) {
-    const src = "covers/" + slug(book.title) + ".jpg";
+  // Series show a carousel of covers named covers/<title>-1.jpg, -2.jpg, ...
+  function coverSrc(book, i) {
+    return "covers/" + slug(book.title) + (book.series ? "-" + (i + 1) : "") + ".jpg";
+  }
+  function setCover(el, src, isCurrent = () => true) {
     const img = new Image();
-    img.onload = () => { el.style.backgroundImage = "url(" + src + ")"; el.classList.add("has-img"); };
+    img.onload = () => {
+      if (!isCurrent()) return;
+      el.style.backgroundImage = "url(" + src + ")"; el.classList.add("has-img");
+    };
     img.src = src;
   }
+  let showing = null, timer = null;
   function showBook(book, li) {
     document.querySelectorAll(".shelf-list li.on").forEach(x => x.classList.remove("on"));
     li.classList.add("on");
+    if (showing === book) return;
+    showing = book;
+    clearInterval(timer);
     const big = preview.querySelector(".cover");
-    big.style.backgroundImage = ""; big.classList.remove("has-img");
+    const dots = preview.querySelector(".pv-dots");
+    big.style.backgroundImage = ""; big.classList.remove("has-img", "fade");
     big.textContent = book.title;
-    setCover(big, book);
     preview.querySelector(".pv-title").textContent = book.title;
     preview.querySelector(".pv-author").textContent = book.author;
+    dots.innerHTML = "";
+    const n = book.series || 1;
+    let i = 0;
+    const show = () => {
+      setCover(big, coverSrc(book, i), () => showing === book);
+      [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i));
+    };
+    if (n > 1) {
+      for (let k = 0; k < n; k++) dots.appendChild(document.createElement("span"));
+      timer = setInterval(() => {
+        big.classList.add("fade");
+        setTimeout(() => { i = (i + 1) % n; show(); big.classList.remove("fade"); }, 250);
+      }, 1400);
+    }
+    show();
   }
   let firstShown = false;
   for (const [id, current] of [["shelf-current", true], ["shelf-main", false]]) {
