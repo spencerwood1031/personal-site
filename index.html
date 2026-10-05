@@ -107,7 +107,11 @@
   }
   .shelf-list li.on { background: #f3f3f3; }
   .shelf-list .t { min-width: 0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .shelf-list .dots { flex: 1; min-width: 16px; border-bottom: 1.5px dotted #c9c9c9; transform: translateY(-3px); }
+  .shelf-list .dots {
+    flex: 1; min-width: 16px; height: 4px; align-self: center; margin-top: 4px;
+    background: radial-gradient(circle, #b4b4b4 1.15px, transparent 1.6px) left center / 8px 4px;
+    background-repeat: space no-repeat;   /* whole dots only, evenly spaced */
+  }
   .shelf-list .a { color: var(--muted); white-space: nowrap; }
   /* Fixed-size frame (tall enough for the tallest cover) so the text below never moves;
      each cover sits on the bottom edge */
