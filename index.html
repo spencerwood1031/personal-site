@@ -388,6 +388,7 @@
     img.onload = () => {
       if (!isCurrent()) return;
       el.style.backgroundImage = "url(" + src + ")"; el.classList.add("has-img");
+      el.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;   // show the whole cover, uncropped
     };
     img.src = src;
   }
@@ -400,7 +401,7 @@
     clearInterval(timer);
     const big = preview.querySelector(".cover");
     const dots = preview.querySelector(".pv-dots");
-    big.style.backgroundImage = ""; big.classList.remove("has-img", "fade");
+    big.style.backgroundImage = ""; big.style.aspectRatio = ""; big.classList.remove("has-img", "fade");
     big.textContent = book.title;
     preview.querySelector(".pv-title").textContent = book.title;
     preview.querySelector(".pv-author").textContent = book.author;
@@ -416,7 +417,7 @@
       timer = setInterval(() => {
         big.classList.add("fade");
         setTimeout(() => { i = (i + 1) % n; show(); big.classList.remove("fade"); }, 250);
-      }, 1400);
+      }, 2600);
     }
     show();
   }
