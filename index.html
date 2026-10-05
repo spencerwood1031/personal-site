@@ -97,7 +97,28 @@
   .lede { font-weight: 500; font-size: 20px; line-height: 1.35; margin-bottom: 1em; }
 
   /* Lists (books, articles): one per line, title then author in gray */
-  .current { margin-bottom: 44px; }
+  /* Bookshelf: dotted-leader list with covers; hovering a book shows it large on the right */
+  main:has(#books.active) { max-width: 900px; }
+  .shelf { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 56px; align-items: start; }
+  .shelf-list { list-style: none; margin-bottom: 44px; }
+  .shelf-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 3px 8px; margin: 0 -8px; cursor: default; font-size: 14.5px;
+  }
+  .shelf-list li.on { background: #f3f3f3; }
+  .shelf-list .t { min-width: 0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .shelf-list .dots { flex: 1; min-width: 16px; border-bottom: 1.5px dotted #c9c9c9; transform: translateY(-3px); }
+  .shelf-list .a { color: var(--muted); white-space: nowrap; }
+  .cover { flex: none; background: #ececec center / cover no-repeat; }
+  .cover.small { width: 16px; height: 24px; }
+  .cover.big {
+    width: 100%; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center;
+    padding: 18px; text-align: center; font-style: italic; color: var(--muted); font-size: 15px;
+  }
+  .cover.has-img { color: transparent; }
+  .shelf-preview { position: sticky; top: 56px; }
+  .pv-title { margin-top: 14px; font-style: italic; font-size: 15px; }
+  .pv-author { color: var(--muted); font-size: 14px; }
   .intro { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
   .list { list-style: none; }
   .list li { padding: 4px 0; }
@@ -128,7 +149,6 @@
   .row figure.seen { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
 
-  .small { font-size: 14px; margin-top: 32px; }
 
   /* Full-screen viewer */
   .viewer {
@@ -156,6 +176,8 @@
     .lede { font-size: 19px; }
     .photos { gap: 56px; }
     .row { flex-direction: column; gap: 56px; }
+    .shelf { grid-template-columns: minmax(0, 1fr); }
+    .shelf-preview { display: none; }
     .row.start { align-items: flex-start; }
     .row.end { align-items: flex-end; }
     .row.center { align-items: center; }
@@ -213,127 +235,19 @@
 
     <!-- BOOKS -->
     <section id="books">
-      <p class="intro">Currently Reading</p>
-      <ul class="list books current">
-        <li>
-          <span class="title"><em>Advice on Upskilling</em></span>
-          <span class="meta">Justin Skycak</span>
-        </li>
-        <li>
-          <span class="title"><em>Inherent Vice</em></span>
-          <span class="meta">Thomas Pynchon</span>
-        </li>
-        <li>
-          <span class="title"><em>Into Thin Air</em></span>
-          <span class="meta">Jon Krakauer</span>
-        </li>
-        <li>
-          <span class="title"><em>Moby-Dick</em></span>
-          <span class="meta">Herman Melville</span>
-        </li>
-      </ul>
-
-      <p class="intro">A non-exhaustive list of books that have indelibly impacted me:</p>
-      <ul class="list books">
-        <li>
-          <span class="title"><em>Atomic Habits</em></span>
-          <span class="meta">James Clear</span>
-        </li>
-        <li>
-          <span class="title"><em>Ender's Game</em></span>
-          <span class="meta">Orson Scott Card</span>
-        </li>
-        <li>
-          <span class="title"><em>Fooled by Randomness</em></span>
-          <span class="meta">Nassim Nicholas Taleb</span>
-        </li>
-        <li>
-          <span class="title"><em>Greenlights</em></span>
-          <span class="meta">Matthew McConaughey</span>
-        </li>
-        <li>
-          <span class="title"><em>Harry Potter Series</em></span>
-          <span class="meta">J.K. Rowling</span>
-        </li>
-        <li>
-          <span class="title"><em>The Hunger Games Series</em></span>
-          <span class="meta">Suzanne Collins</span>
-        </li>
-        <li>
-          <span class="title"><em>In Cold Blood</em></span>
-          <span class="meta">Truman Capote</span>
-        </li>
-        <li>
-          <span class="title"><em>The Kite Runner</em></span>
-          <span class="meta">Khaled Hosseini</span>
-        </li>
-        <li>
-          <span class="title"><em>The Laws of Trading</em></span>
-          <span class="meta">Agustin Lebron</span>
-        </li>
-        <li>
-          <span class="title"><em>Liar's Poker</em></span>
-          <span class="meta">Michael Lewis</span>
-        </li>
-        <li>
-          <span class="title"><em>Meditations</em></span>
-          <span class="meta">Marcus Aurelius</span>
-        </li>
-        <li>
-          <span class="title"><em>The Neapolitan Novels</em></span>
-          <span class="meta">Elena Ferrante</span>
-        </li>
-        <li>
-          <span class="title"><em>Open</em></span>
-          <span class="meta">Andre Agassi</span>
-        </li>
-        <li>
-          <span class="title"><em>The Pigeon</em></span>
-          <span class="meta">Patrick Süskind</span>
-        </li>
-        <li>
-          <span class="title"><em>The Plunge</em></span>
-          <span class="meta">Chris Ballard</span>
-        </li>
-        <li>
-          <span class="title"><em>The Psychology of Money</em></span>
-          <span class="meta">Morgan Housel</span>
-        </li>
-        <li>
-          <span class="title"><em>Red Rising Saga</em></span>
-          <span class="meta">Pierce Brown</span>
-        </li>
-        <li>
-          <span class="title"><em>The Secret History</em></span>
-          <span class="meta">Donna Tartt</span>
-        </li>
-        <li>
-          <span class="title"><em>The Stranger</em></span>
-          <span class="meta">Albert Camus</span>
-        </li>
-        <li>
-          <span class="title"><em>Superforecasting</em></span>
-          <span class="meta">Philip Tetlock</span>
-        </li>
-        <li>
-          <span class="title"><em>Thinking in Bets</em></span>
-          <span class="meta">Annie Duke</span>
-        </li>
-        <li>
-          <span class="title"><em>The Wager</em></span>
-          <span class="meta">David Grann</span>
-        </li>
-        <li>
-          <span class="title"><em>What I Talk About When I Talk About Running</em></span>
-          <span class="meta">Haruki Murakami</span>
-        </li>
-        <li>
-          <span class="title"><em>When Breath Becomes Air</em></span>
-          <span class="meta">Paul Kalanithi</span>
-        </li>
-        <!-- To add a book, copy one <li>...</li> block above. Add an optional note line:
-             <span class="note">One sentence on what you thought.</span> -->
-      </ul>
+      <div class="shelf">
+        <div class="shelf-lists">
+          <p class="intro">Currently Reading</p>
+          <ul class="shelf-list" id="shelf-current"></ul>
+          <p class="intro">A non-exhaustive list of books that have indelibly impacted me:</p>
+          <ul class="shelf-list" id="shelf-main"></ul>
+        </div>
+        <aside class="shelf-preview" id="shelf-preview" aria-hidden="true">
+          <div class="cover big"></div>
+          <p class="pv-title"></p>
+          <p class="pv-author"></p>
+        </aside>
+      </div>
     </section>
 
     <!-- PHOTOGRAPHY -->
@@ -423,6 +337,76 @@
     if (e.isIntersecting) { e.target.classList.add("seen"); watcher.unobserve(e.target); }
   }), { threshold: 0.15 });
   list.querySelectorAll("figure").forEach(f => watcher.observe(f));
+
+  // ---- BOOKSHELF ----
+  // Add a book by adding a line here. Lists sort themselves A to Z (ignoring "The").
+  // Covers: put an image in the "covers" folder named after the title, e.g. covers/moby-dick.jpg
+  const BOOKS = [
+      { title: "Advice on Upskilling", author: "Justin Skycak", current: true },
+      { title: "Inherent Vice", author: "Thomas Pynchon", current: true },
+      { title: "Into Thin Air", author: "Jon Krakauer", current: true },
+      { title: "Moby-Dick", author: "Herman Melville", current: true },
+      { title: "Atomic Habits", author: "James Clear" },
+      { title: "Ender's Game", author: "Orson Scott Card" },
+      { title: "Fooled by Randomness", author: "Nassim Nicholas Taleb" },
+      { title: "Greenlights", author: "Matthew McConaughey" },
+      { title: "Harry Potter Series", author: "J.K. Rowling" },
+      { title: "The Hunger Games Series", author: "Suzanne Collins" },
+      { title: "In Cold Blood", author: "Truman Capote" },
+      { title: "The Kite Runner", author: "Khaled Hosseini" },
+      { title: "The Laws of Trading", author: "Agustin Lebron" },
+      { title: "Liar's Poker", author: "Michael Lewis" },
+      { title: "Meditations", author: "Marcus Aurelius" },
+      { title: "The Neapolitan Novels", author: "Elena Ferrante" },
+      { title: "Open", author: "Andre Agassi" },
+      { title: "The Pigeon", author: "Patrick Süskind" },
+      { title: "The Plunge", author: "Chris Ballard" },
+      { title: "The Psychology of Money", author: "Morgan Housel" },
+      { title: "Red Rising Saga", author: "Pierce Brown" },
+      { title: "The Secret History", author: "Donna Tartt" },
+      { title: "The Stranger", author: "Albert Camus" },
+      { title: "Superforecasting", author: "Philip Tetlock" },
+      { title: "Thinking in Bets", author: "Annie Duke" },
+      { title: "The Wager", author: "David Grann" },
+      { title: "What I Talk About When I Talk About Running", author: "Haruki Murakami" },
+      { title: "When Breath Becomes Air", author: "Paul Kalanithi" },
+  ];
+  const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const sortKey = t => t.replace(/^(The|A|An) /, "").toLowerCase();
+  const preview = document.getElementById("shelf-preview");
+  function setCover(el, book) {
+    const src = "covers/" + slug(book.title) + ".jpg";
+    const img = new Image();
+    img.onload = () => { el.style.backgroundImage = "url(" + src + ")"; el.classList.add("has-img"); };
+    img.src = src;
+  }
+  function showBook(book, li) {
+    document.querySelectorAll(".shelf-list li.on").forEach(x => x.classList.remove("on"));
+    li.classList.add("on");
+    const big = preview.querySelector(".cover");
+    big.style.backgroundImage = ""; big.classList.remove("has-img");
+    big.textContent = book.title;
+    setCover(big, book);
+    preview.querySelector(".pv-title").textContent = book.title;
+    preview.querySelector(".pv-author").textContent = book.author;
+  }
+  let firstShown = false;
+  for (const [id, current] of [["shelf-current", true], ["shelf-main", false]]) {
+    const ul = document.getElementById(id);
+    BOOKS.filter(b => !!b.current === current)
+      .sort((x, y) => sortKey(x.title).localeCompare(sortKey(y.title)))
+      .forEach(book => {
+        const li = document.createElement("li");
+        const c = document.createElement("span"); c.className = "cover small"; setCover(c, book);
+        const t = document.createElement("span"); t.className = "t"; t.textContent = book.title;
+        const d = document.createElement("span"); d.className = "dots";
+        const a = document.createElement("span"); a.className = "a"; a.textContent = book.author.split(" ").pop();
+        li.append(c, t, d, a);
+        li.addEventListener("mouseenter", () => showBook(book, li));
+        ul.appendChild(li);
+        if (!firstShown) { showBook(book, li); firstShown = true; }
+      });
+  }
 
   // ---- Links to other websites open in a new tab ----
   document.querySelectorAll('a[href^="http"]').forEach(a => { a.target = "_blank"; a.rel = "noopener"; });
