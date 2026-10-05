@@ -109,15 +109,19 @@
   .shelf-list .t { min-width: 0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .shelf-list .dots { flex: 1; min-width: 16px; border-bottom: 1.5px dotted #c9c9c9; transform: translateY(-3px); }
   .shelf-list .a { color: var(--muted); white-space: nowrap; }
-  .cover { flex: none; background: #ececec center / cover no-repeat; }
   .cover.big {
-    width: 100%; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center;
+    position: relative; width: 100%; aspect-ratio: 2 / 3; background: #ececec;
+    display: flex; align-items: center; justify-content: center;
     padding: 18px; text-align: center; font-style: italic; color: var(--muted); font-size: 15px;
   }
-  .cover.has-img { color: transparent; }
+  .cover.big.has-img { background: none; color: transparent; }
+  /* Two stacked layers so the next cover can fade in over the current one */
+  .cover.big .layer {
+    position: absolute; inset: 0; background: center bottom / contain no-repeat;
+    opacity: 0; transition: opacity 0.9s ease;
+  }
+  .cover.big .layer.show { opacity: 1; }
   .shelf-preview { position: sticky; top: 56px; }
-  .cover.big { transition: opacity 0.25s ease; }
-  .cover.big.fade { opacity: 0; }
   .pv-dots { display: flex; gap: 6px; margin-top: 10px; min-height: 6px; }
   .pv-dots span { width: 6px; height: 6px; border-radius: 50%; background: #d6d6d6; }
   .pv-dots span.on { background: var(--red); }
@@ -247,7 +251,7 @@
           <ul class="shelf-list" id="shelf-main"></ul>
         </div>
         <aside class="shelf-preview" id="shelf-preview" aria-hidden="true">
-          <div class="cover big"></div>
+          <div class="cover big"><span class="ph"></span><div class="layer"></div><div class="layer"></div></div>
           <div class="pv-dots"></div>
           <p class="pv-title"></p>
           <p class="pv-author"></p>
@@ -383,43 +387,51 @@
   function coverSrc(book, i) {
     return "covers/" + slug(book.title) + (book.series ? "-" + (i + 1) : "") + ".jpg";
   }
-  function setCover(el, src, isCurrent = () => true) {
+  const loadImg = src => new Promise(ok => {
     const img = new Image();
-    img.onload = () => {
-      if (!isCurrent()) return;
-      el.style.backgroundImage = "url(" + src + ")"; el.classList.add("has-img");
-      el.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;   // show the whole cover, uncropped
-    };
+    img.onload = () => ok(img); img.onerror = () => ok(null);
     img.src = src;
-  }
+  });
   let showing = null, timer = null;
-  function showBook(book, li) {
+  async function showBook(book, li) {
     document.querySelectorAll(".shelf-list li.on").forEach(x => x.classList.remove("on"));
     li.classList.add("on");
     if (showing === book) return;
     showing = book;
     clearInterval(timer);
     const big = preview.querySelector(".cover");
+    const layers = big.querySelectorAll(".layer");
     const dots = preview.querySelector(".pv-dots");
-    big.style.backgroundImage = ""; big.style.aspectRatio = ""; big.classList.remove("has-img", "fade");
-    big.textContent = book.title;
+    big.classList.remove("has-img"); big.style.aspectRatio = "";
+    layers.forEach(l => { l.classList.remove("show"); l.style.backgroundImage = ""; });
+    big.querySelector(".ph").textContent = book.title;
     preview.querySelector(".pv-title").textContent = book.title;
     preview.querySelector(".pv-author").textContent = book.author;
     dots.innerHTML = "";
+
     const n = book.series || 1;
-    let i = 0;
-    const show = () => {
-      setCover(big, coverSrc(book, i), () => showing === book);
-      [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i));
-    };
-    if (n > 1) {
-      for (let k = 0; k < n; k++) dots.appendChild(document.createElement("span"));
+    const imgs = (await Promise.all([...Array(n)].map((_, k) => loadImg(coverSrc(book, k))))).filter(Boolean);
+    if (showing !== book || !imgs.length) return;
+    // Size the box to the tallest cover so nothing below it moves between covers
+    const ratio = Math.min(...imgs.map(im => im.naturalWidth / im.naturalHeight));
+    big.style.aspectRatio = String(ratio);
+    big.classList.add("has-img");
+    let i = 0, front = 0;
+    layers[0].style.backgroundImage = "url(" + imgs[0].src + ")";
+    layers[0].classList.add("show");
+    if (imgs.length > 1) {
+      imgs.forEach(() => dots.appendChild(document.createElement("span")));
+      dots.children[0].classList.add("on");
       timer = setInterval(() => {
-        big.classList.add("fade");
-        setTimeout(() => { i = (i + 1) % n; show(); big.classList.remove("fade"); }, 250);
+        i = (i + 1) % imgs.length;
+        const next = layers[1 - front];
+        next.style.backgroundImage = "url(" + imgs[i].src + ")";
+        next.classList.add("show");
+        layers[front].classList.remove("show");
+        front = 1 - front;
+        [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i));
       }, 2600);
     }
-    show();
   }
   let firstShown = false;
   for (const [id, current] of [["shelf-current", true], ["shelf-main", false]]) {
