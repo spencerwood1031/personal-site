@@ -102,9 +102,10 @@
   .shelf-list { list-style: none; margin-bottom: 44px; }
   .shelf-list li {
     display: flex; align-items: center; gap: 10px;
-    padding: 3px 8px; margin: 0 -8px; cursor: default; font-size: 14.5px;
+    padding: 3px 8px; margin: 0 -8px; cursor: pointer; font-size: 14.5px;
   }
   .shelf-list li.on { background: rgba(22, 22, 22, 0.06); }
+  .shelf-list li.pinned { background: rgba(22, 22, 22, 0.12); }
   .shelf-list .t { min-width: 0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .shelf-list .dots {
     flex: 1; min-width: 16px; height: 4px; align-self: center; margin-top: 4px;
@@ -413,7 +414,7 @@
     }
     return coverCache.get(book);
   };
-  let showing = null, timer = null;
+  let showing = null, timer = null, pinned = null;
   async function showBook(book, li) {
     document.querySelectorAll(".shelf-list li.on").forEach(x => x.classList.remove("on"));
     li.classList.add("on");
@@ -473,7 +474,15 @@
         const d = document.createElement("span"); d.className = "dots";
         const a = document.createElement("span"); a.className = "a"; a.textContent = book.author;
         li.append(t, d, a);
-        li.addEventListener("mouseenter", () => showBook(book, li));
+        li.addEventListener("mouseenter", () => { if (!pinned) showBook(book, li); });
+        // Clicking a book keeps it in the preview until it's clicked again (or another is clicked)
+        li.addEventListener("click", () => {
+          document.querySelectorAll(".shelf-list li.pinned").forEach(x => x.classList.remove("pinned"));
+          if (pinned === book) { pinned = null; return; }
+          pinned = book;
+          li.classList.add("pinned");
+          showBook(book, li);
+        });
         ul.appendChild(li);
         if (!firstShown) { showBook(book, li); firstShown = true; }
       });
