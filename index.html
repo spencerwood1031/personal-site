@@ -110,7 +110,6 @@
   .shelf-list .dots { flex: 1; min-width: 16px; border-bottom: 1.5px dotted #c9c9c9; transform: translateY(-3px); }
   .shelf-list .a { color: var(--muted); white-space: nowrap; }
   .cover { flex: none; background: #ececec center / cover no-repeat; }
-  .cover.small { width: 16px; height: 24px; }
   .cover.big {
     width: 100%; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center;
     padding: 18px; text-align: center; font-style: italic; color: var(--muted); font-size: 15px;
@@ -343,8 +342,8 @@
   // Covers: put an image in the "covers" folder named after the title, e.g. covers/moby-dick.jpg
   const BOOKS = [
       { title: "Advice on Upskilling", author: "Justin Skycak", current: true },
-      { title: "Inherent Vice", author: "Thomas Pynchon", current: true },
-      { title: "Into Thin Air", author: "Jon Krakauer", current: true },
+      { title: "Inherent Vice", author: "Thomas Pynchon" },
+      { title: "Into Thin Air", author: "Jon Krakauer" },
       { title: "Moby-Dick", author: "Herman Melville", current: true },
       { title: "Atomic Habits", author: "James Clear" },
       { title: "Ender's Game", author: "Orson Scott Card" },
@@ -397,11 +396,10 @@
       .sort((x, y) => sortKey(x.title).localeCompare(sortKey(y.title)))
       .forEach(book => {
         const li = document.createElement("li");
-        const c = document.createElement("span"); c.className = "cover small"; setCover(c, book);
         const t = document.createElement("span"); t.className = "t"; t.textContent = book.title;
         const d = document.createElement("span"); d.className = "dots";
         const a = document.createElement("span"); a.className = "a"; a.textContent = book.author.split(" ").pop();
-        li.append(c, t, d, a);
+        li.append(t, d, a);
         li.addEventListener("mouseenter", () => showBook(book, li));
         ul.appendChild(li);
         if (!firstShown) { showBook(book, li); firstShown = true; }
