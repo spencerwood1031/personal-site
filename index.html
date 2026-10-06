@@ -16,7 +16,7 @@
     --paper: #f1e8d7;
     --red: #e10600;
     --soft: #f7b5b2;
-    --ink: #161616;
+    --ink: #000;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--paper); }
@@ -104,12 +104,12 @@
     display: flex; align-items: center; gap: 10px;
     padding: 3px 8px; margin: 0 -8px; cursor: pointer; font-size: 14.5px;
   }
-  .shelf-list li.on { background: rgba(22, 22, 22, 0.06); }
-  .shelf-list li.pinned { background: rgba(22, 22, 22, 0.12); }
+  .shelf-list li.on { background: rgba(0, 0, 0, 0.06); }
+  .shelf-list li.pinned { background: rgba(0, 0, 0, 0.12); }
   .shelf-list .t { min-width: 0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .shelf-list .dots {
     flex: 1; min-width: 16px; height: 4px; align-self: center; margin-top: 4px;
-    background: radial-gradient(circle, rgba(22, 22, 22, 0.45) 1.15px, transparent 1.6px) left center / 8px 4px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.45) 1.15px, transparent 1.6px) left center / 8px 4px;
     background-repeat: space no-repeat;   /* whole dots only, evenly spaced */
   }
   .shelf-list .a { white-space: nowrap; }
@@ -117,7 +117,7 @@
      each cover sits on the bottom edge */
   .cover.big { position: relative; width: 100%; aspect-ratio: 1 / 1.66; }
   .cover.big .ph {
-    position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 2 / 3; background: rgba(22, 22, 22, 0.07);
+    position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 2 / 3; background: rgba(0, 0, 0, 0.07);
     display: flex; align-items: center; justify-content: center;
     padding: 18px; text-align: center; font-style: italic; font-size: 15px;
   }
@@ -135,8 +135,8 @@
     width: 16px; height: 16px; padding: 0; border: 0; background: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  .pv-dots button::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(22, 22, 22, 0.2); }
-  .pv-dots button:hover::after { background: rgba(22, 22, 22, 0.45); }
+  .pv-dots button::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(0, 0, 0, 0.2); }
+  .pv-dots button:hover::after { background: rgba(0, 0, 0, 0.45); }
   .pv-dots button.on::after { background: var(--red); }
   .pv-title { margin-top: 10px; font-style: italic; font-size: 15px; }
   .pv-author { font-size: 14px; margin-top: 1px; }
