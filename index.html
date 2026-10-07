@@ -49,9 +49,11 @@
     line-height: 0.95;
     letter-spacing: -0.01em;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
   }
   /* Ornamental first letters (knotwork frame), sized to the name */
-  header h1 .initial { width: 1.55em; height: 1.55em; vertical-align: -0.12em; margin-right: 0.04em; }
+  header h1 .initial { width: 1.55em; height: 1.55em; flex: none; margin-right: 0.04em; }
   .rule { border: 0; border-top: 2px solid var(--red); margin: 20px 0 0; }
 
   /* Nav */
@@ -322,13 +324,13 @@
     [12, 9],
     [3, 13],
     [14, 18],
-    [4, 10],
+    [10],
     [17, 20],
     [19, 16],
     [8, 21],
   ];
   const SIZES = {   // width, height of each photo file
-    1: [2400, 1591], 2: [1346, 929], 3: [1591, 2400], 4: [1591, 2400], 5: [2400, 1600], 6: [2400, 1591],
+    1: [2400, 1591], 2: [1346, 929], 3: [1591, 2400], 5: [2400, 1600], 6: [2400, 1591],
     7: [1591, 2400], 8: [2360, 1600], 9: [2400, 1591], 10: [2400, 1591], 11: [1591, 2400], 12: [1591, 2400],
     13: [2400, 1600], 14: [2400, 1591], 15: [1536, 2048], 16: [2400, 1600], 17: [2400, 1600], 18: [2400, 1600],
     19: [1591, 2400], 20: [2400, 1591], 21: [2400, 1600],
