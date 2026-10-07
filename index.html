@@ -151,6 +151,7 @@
   .list .note { display: block; font-size: 13px; font-style: italic; }
   .list a { text-decoration: none; }
   .list a:hover .title { text-decoration: underline; }
+  .list .locked { width: 13px; height: 13px; margin-left: 8px; vertical-align: -1px; }
 
   /* Photography: even rows. Every photo in a row has the same height, and each row fills the full width. */
   main:has(#photography.active) { max-width: none; }
@@ -284,7 +285,12 @@
           <span class="title">Asymmetric Bets</span>
           <span class="meta">Coming Soon</span>
         </li>
-        <!-- When an article is published on Substack, replace its <li> with:
+        <li>
+          <a href="state-of-affairs.html"><span class="title">State of Affairs - Winter 2026</span></a>
+          <svg class="locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Password protected"><rect x="4.5" y="10.5" width="15" height="10.5" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+        </li>
+        <!-- Articles are listed newest first: add new ones at the top.
+             When an article is published on Substack, replace its <li> with:
         <li>
           <a href="LINK-TO-ARTICLE"><span class="title">Article title</span></a>
           <span class="meta">Month Year</span>
