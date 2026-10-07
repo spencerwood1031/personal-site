@@ -149,9 +149,10 @@
   .list .title em { font-weight: 400; }
   .list .meta { margin-left: 10px; font-size: 13px; font-style: italic; }
   .list .note { display: block; font-size: 13px; font-style: italic; }
-  .list a { text-decoration: none; }
-  .list a:hover .title { text-decoration: underline; }
-  .list .locked { width: 13px; height: 13px; margin-left: 8px; vertical-align: -1px; }
+  /* Articles you can open: red and underlined, so they stand out from the "Coming Soon" ones */
+  .list a { color: var(--red); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .list a:hover { text-decoration-thickness: 2px; }
+  .list .locked { width: 13px; height: 13px; margin-left: 8px; vertical-align: -1px; color: var(--red); }
 
   /* Photography: even rows. Every photo in a row has the same height, and each row fills the full width. */
   main:has(#photography.active) { max-width: none; }
