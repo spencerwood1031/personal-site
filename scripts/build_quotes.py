@@ -5,6 +5,9 @@ Run from the repo root:
     python3 scripts/build_quotes.py                 # trial: only "Notion: Life Library" rows
     python3 scripts/build_quotes.py --all           # every row on the Master tab
 
+Rows with Favorite = "Yes" rotate on the Life Library front page. They're always
+included, even when they come from somewhere other than --source.
+
 Options:
     --xlsx PATH      spreadsheet to read (default: Quote_Archive_Master.xlsx)
     --source NAME    only rows whose "Came from" equals NAME (default: Notion: Life Library)
@@ -67,7 +70,8 @@ def main():
         text = get(row, "Quote")
         if not text:
             continue
-        if not args.all and get(row, "Came from") != args.source:
+        favorite = get(row, "Favorite").lower() in ("yes", "y", "true", "1")
+        if not args.all and not favorite and get(row, "Came from") != args.source:
             continue
         labels = []
         for raw in get(row, "Topics").split(","):
@@ -93,6 +97,7 @@ def main():
             "link": get(row, "Link"),
             "labels": labels,
             "length": len(text),
+            "favorite": favorite,
         })
 
     out = Path(args.out)
@@ -100,7 +105,7 @@ def main():
     out.write_text(json.dumps(quotes, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
     print(f"Wrote {len(quotes)} quotes to {out}")
-    print(f"  short enough for the rotating quote (under 280 characters): {sum(q['length'] < 280 for q in quotes)}")
+    print(f"  favorites (rotate on the front page): {sum(q['favorite'] for q in quotes)}")
     print(f"  with no label: {sum(not q['labels'] for q in quotes)}")
     if unknown:
         print("  Topics not in the label list (left off the site):")
