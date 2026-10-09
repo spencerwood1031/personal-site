@@ -216,7 +216,7 @@
   .q-list .q-text { font-size: 17px; line-height: 1.5; }
   .q-list .q-by { font-size: 14px; margin-top: 10px; }
   .q-list .q-labels { margin-top: 8px; }
-  .q-list .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
+  .q-feature .q-text.clamp, .q-list .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
   .q-more { margin-top: 8px; }
   .q-filters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 4px; }
   .q-filters input, .q-filters select {
@@ -724,7 +724,8 @@
     const controls = el("div", "q-controls");
     const next = el("button", "q-btn", "Next →");
     const bar = el("div", "q-timer"); const fill = el("i"); bar.appendChild(fill);
-    controls.append(next, bar);
+    const random = el("button", "q-btn", "Random quote");
+    controls.append(next, random, bar);
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fillBar = () => {
       fill.style.transition = "none"; fill.style.width = "0";
@@ -733,16 +734,37 @@
     };
     const put = q => {
       body.innerHTML = "";
-      body.append(el("p", "q-text" + (q.length > ROTATE_MAX ? " long" : ""), q.text), byline(q), labelLinks(q));
+      const t = el("p", "q-text" + (q.length > ROTATE_MAX ? " long" : ""), q.text);
+      body.appendChild(t);
+      if (q.length > LONG) {
+        t.classList.add("clamp");
+        const b = el("button", "q-btn q-more", "Read more");
+        b.addEventListener("click", () => { b.textContent = t.classList.toggle("clamp") ? "Read more" : "Show less"; });
+        body.appendChild(b);
+      }
+      body.append(byline(q), labelLinks(q));
     };
-    const advance = () => {
-      const q = nextQuote(pool);
+    const display = q => {
       if (still || !body.firstChild) { put(q); }
       else { body.classList.add("fade"); setTimeout(() => { put(q); body.classList.remove("fade"); }, 450); }
+    };
+    const advance = () => {
+      display(nextQuote(pool));
       clearInterval(rotateTimer);
       rotateTimer = setInterval(advance, ROTATE_EVERY);
       fillBar();
     };
+    // Random: any quote from the whole library. The rotation pauses so there's time to read it;
+    // Next starts it again.
+    let lastRandom = null;
+    random.addEventListener("click", () => {
+      let q;
+      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && (q === lastRandom || q === lastShown));
+      lastRandom = q;
+      display(q);
+      clearInterval(rotateTimer);
+      fill.style.transition = "none"; fill.style.width = "0";
+    });
     next.addEventListener("click", advance);
 
     // Every label, with how many quotes it has
