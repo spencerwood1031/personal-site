@@ -35,6 +35,10 @@ LABELS = [
     "Management", "Technology", "Leadership", "Philosophy", "Business", "Science", "Society", "Politics",
     "Fitness", "Wellness",
 ]
+# Quotes Spencer has asked to keep off the site, by ID
+EXCLUDE = {
+    "Q0074",  # reflexivity definition credited to Claude
+}
 # Spelling differences forgiven when matching a label (lowercase, spaces/dashes ignored)
 CANON = {l.lower().replace("-", "").replace(" ", ""): l for l in LABELS}
 
@@ -68,7 +72,7 @@ def main():
     quotes, unknown = [], {}
     for row in rows:
         text = get(row, "Quote")
-        if not text:
+        if not text or get(row, "ID") in EXCLUDE:
             continue
         favorite = get(row, "Favorite").lower() in ("yes", "y", "true", "1")
         if not args.all and not favorite and get(row, "Came from") != args.source:
