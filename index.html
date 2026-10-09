@@ -154,6 +154,11 @@
 
   /* Photography: even rows. Every photo in a row has the same height, and each row fills the full width. */
   main:has(#photography.active) { max-width: none; }
+  /* Photography runs past the usual page width toward the right edge of the screen, so the
+     photos show larger while the sidebar stays put */
+  @media (min-width: 861px) {
+    main:has(#photography.active) { margin-right: calc(-1 * (max(0px, (100vw - 1240px) / 2) + 24px)); }
+  }
   .photos { display: flex; flex-direction: column; gap: 14px; }
   .row { display: flex; gap: 14px; }
   .row figure { margin: 0; flex: 1 1 0; min-width: 0; }
