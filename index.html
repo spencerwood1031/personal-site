@@ -415,7 +415,7 @@
     [8, 22],
   ];
   const SIZES = {   // width, height of each photo file
-    1: [2400, 1591], 2: [1346, 929], 3: [1591, 2400], 5: [2400, 1600], 6: [2160, 1591],
+    1: [2400, 1591], 2: [1346, 929], 3: [1591, 2400], 5: [2400, 1600], 6: [2080, 1591],
     7: [1591, 2400], 8: [2360, 1600], 9: [2400, 1591], 10: [2400, 1591], 11: [1591, 2400], 12: [1591, 2400],
     13: [2400, 1600], 14: [2400, 1591], 15: [1536, 2048], 16: [2400, 1600], 17: [2400, 1600], 18: [2400, 1600],
     19: [1591, 2400], 20: [2400, 1591], 22: [2400, 1600],
@@ -423,7 +423,7 @@
 
   // Photos in the order they appear (used by the full-screen viewer)
   // Bump PHOTO_VERSION after editing a photo file so browsers fetch the new version
-  const PHOTO_VERSION = 2;
+  const PHOTO_VERSION = 3;
   const PHOTOS = ROWS.flat().map(n => ({ src: "photos/" + String(n).padStart(2, "0") + ".jpg?v=" + PHOTO_VERSION, n }));
 
   const list = document.getElementById("photo-list");
