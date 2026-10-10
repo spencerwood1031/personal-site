@@ -188,17 +188,18 @@
   .q-pick .q-text { font-size: 17px; line-height: 1.5; }
   .q-pick .q-by { font-size: 14px; margin-top: 8px; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
-  .q-feature { margin-top: 40px; min-height: 210px; }
+  .q-feature { margin-top: 36px; padding: 26px 28px; background: rgba(0, 0, 0, 0.035); border: 1px solid rgba(0, 0, 0, 0.15); }
+  .q-feature .q-body { min-height: 125px; }
   .q-body { transition: opacity 0.45s ease; }
   .q-body.fade { opacity: 0; }
-  .q-feature .q-text { font-weight: 500; font-size: 24px; line-height: 1.4; }
-  .q-feature .q-text.clamp { -webkit-line-clamp: 7; }
+  .q-feature .q-text { font-size: 18px; line-height: 1.5; }
+  .q-feature .q-text.clamp { -webkit-line-clamp: 6; }
   .q-text { white-space: pre-line; overflow-wrap: break-word; }
   .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
   .q-by { font-size: 15px; margin-top: 14px; }
   .q-by .src { font-style: italic; }
   .q-by .att { font-size: 12px; font-style: italic; opacity: 0.6; }
-  .q-controls { display: flex; gap: 12px; margin-top: 28px; }
+  .q-controls { display: flex; gap: 12px; margin-top: 22px; }
   .q-btn {
     background: none; border: 2px solid var(--red); border-radius: 0; padding: 9px 16px; cursor: pointer; color: var(--red);
     font: 700 12px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
@@ -273,8 +274,9 @@
     .shelf-preview { display: none; }
     .row figure { width: 100%; flex: none !important; }
     .viewer { padding: 16px; }
-    .q-feature { min-height: 260px; margin-top: 32px; }
-    .q-feature .q-text { font-size: 20px; }
+    .q-feature { margin-top: 28px; padding: 20px 18px; }
+    .q-feature .q-body { min-height: 200px; }
+    .q-feature .q-text { font-size: 17px; }
     .q-find { grid-template-columns: minmax(0, 1fr); }
     .q-head { font-size: 24px; }
   }
@@ -770,7 +772,8 @@
     box.addEventListener("mouseleave", () => { paused = false; });
     next.addEventListener("click", () => { display(nextQuote(pool)); start(); });
 
-    qView.append(head, box, controls);
+    box.appendChild(controls);
+    qView.append(head, box);
     if (pool.length) { display(nextQuote(pool)); start(); }
   }
 
