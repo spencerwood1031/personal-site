@@ -172,8 +172,22 @@
 
   /* Life Library: one quote at a time, a search box, and a page per topic */
   main:has(#quotes.active) { max-width: 640px; }
+  .q-tabs { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 36px; }
+  .q-tabs a {
+    text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--red); border-bottom: 2px solid transparent;
+  }
+  .q-tabs a:hover { border-bottom-color: var(--soft); }
+  .q-tabs a.active { border-bottom-color: var(--red); }
+  .q-intro { font-size: 15px; line-height: 1.6; }
+  .q-intro + .q-intro { margin-top: 0.8em; }
+  .q-surprise { margin-top: 20px; }
+  .q-pick { margin-top: 22px; padding: 22px 0; border-top: 2px solid var(--red); border-bottom: 2px solid var(--red); }
+  .q-pick .q-list { margin: 0; }
+  .q-pick .q-list li { border: 0; padding: 0; }
+  .q-pick .q-text { font-size: 17px; line-height: 1.5; }
+  .q-pick .q-by { font-size: 14px; margin-top: 8px; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
-  .q-sub { font-size: 15px; margin-top: 6px; }
   .q-feature { margin-top: 40px; min-height: 210px; }
   .q-body { transition: opacity 0.45s ease; }
   .q-body.fade { opacity: 0; }
@@ -192,7 +206,7 @@
   .q-btn:hover { background: var(--red); color: var(--paper); }
   .q-more { border: 0; padding: 0; margin-top: 8px; border-bottom: 2px solid transparent; }
   .q-more:hover { background: none; color: var(--red); border-bottom-color: var(--soft); }
-  .q-search { margin-top: 72px; }
+  .q-search { margin-top: 0; }
   .q-find { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 16px; margin-top: 12px; }
   .q-find input, .q-find select {
     width: 100%; font: 400 16px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; color: var(--ink);
@@ -221,10 +235,6 @@
   .q-back:hover { text-decoration: underline; text-underline-offset: 3px; }
   .q-head { font-weight: 800; font-size: 30px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; color: var(--red); }
   .q-empty { padding: 22px 0; font-style: italic; }
-  .q-search-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-  .q-all { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red);
-    text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
-  .q-all:hover { border-bottom-color: var(--soft); }
   .q-group { margin-top: 48px; }
   .q-group-title { display: block; font-size: 19px; font-weight: 800; line-height: 1.3; color: var(--ink); text-decoration: none; }
   a.q-group-title:hover { text-decoration: underline; text-underline-offset: 4px; }
@@ -372,6 +382,10 @@
     </section>
     <!-- QUOTES (filled in from data/quotes.json; rebuild that file with scripts/build_quotes.py) -->
     <section id="quotes">
+      <div class="q-tabs">
+        <a href="#quotes" data-q="home">Commonplace Book</a>
+        <a href="#quotes/archive" data-q="archive">Archive</a>
+      </div>
       <div id="q-view"></div>
     </section>
   </main>
@@ -717,10 +731,13 @@
     const favs = QUOTES.filter(q => q.favorite);
     const pool = favs.length ? favs : QUOTES.filter(q => q.length < ROTATE_MAX);
 
-    // What this page is, in one line
+    // What a commonplace book is. Edit the wording here.
     const head = el("div");
-    head.append(el("p", "q-kicker", "A commonplace book"),
-      el("p", "q-sub", "Lines that struck me and made me think harder. Keeping one isn't the same as endorsing it."));
+    head.append(
+      el("p", "q-intro", "Since the ancient Greeks and Romans, readers have kept commonplace books: notebooks where they " +
+        "copied down passages worth remembering, so the best ideas they came across stayed within reach."),
+      el("p", "q-intro", "This is mine. These are lines that struck me and made me think harder. " +
+        "Keeping one isn't the same as endorsing it."));
 
     // One quote at a time
     const box = el("div", "q-feature");
@@ -753,18 +770,15 @@
     box.addEventListener("mouseleave", () => { paused = false; });
     next.addEventListener("click", () => { display(nextQuote(pool)); start(); });
 
-    qView.append(head, box, controls, searchBox());
+    qView.append(head, box, controls);
     if (pool.length) { display(nextQuote(pool)); start(); }
   }
 
   // Search: one box plus a topic menu. Results show up only once something is typed or picked.
   let qSearch = { text: "", label: "" };
-  function searchBox() {
+  function searchBox(idle) {
     const wrap = el("div", "q-search");
-    const top = el("div", "q-search-top");
-    const all = el("a", "q-all", "Full archive →"); all.href = "#quotes/archive";
-    top.append(el("p", "q-kicker", "Search all " + QUOTES.length + " quotes"), all);
-    wrap.appendChild(top);
+    wrap.appendChild(el("p", "q-kicker", "Search all " + QUOTES.length + " quotes"));
     const f = el("div", "q-find");
     const input = el("input"); input.type = "search"; input.value = qSearch.text;
     input.placeholder = "Try a word or a name, like “risk” or “Munger”";
@@ -783,7 +797,7 @@
     const run = () => {
       qSearch = { text: input.value, label: topic.value };
       const words = norm(qSearch.text).split(/\s+/).filter(Boolean);
-      if (!words.length && !qSearch.label) { n.textContent = ""; out.replaceChildren(); return; }
+      if (!words.length && !qSearch.label) { n.textContent = ""; out.replaceChildren(idle); return; }
       const list = QUOTES.filter(q =>
         (!qSearch.label || q.labels.includes(qSearch.label)) &&
         words.every(w => norm(q.text + " " + q.author + " " + q.source).includes(w)));
@@ -792,14 +806,26 @@
     };
     input.addEventListener("input", run);
     topic.addEventListener("change", run);
-    wrap.append(f, n, out);
+    // Surprise me: one random quote from the whole library, shown above everything else
+    const surprise = el("button", "q-btn q-surprise", "Surprise me");
+    const pick = el("div");
+    let lastPick = null;
+    surprise.addEventListener("click", () => {
+      let q;
+      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && q === lastPick);
+      lastPick = q;
+      const box = el("div", "q-pick");
+      box.appendChild(quoteList([q]));
+      pick.replaceChildren(box);
+    });
+    wrap.append(f, surprise, pick, n, out);
     run();
     return wrap;
   }
 
   // Full archive: every quote, grouped under the article (or book, newsletter...) it came from.
   // Quotes with no source recorded are grouped under their author.
-  function renderArchive() {
+  function groupedArchive() {
     const groups = new Map();
     QUOTES.forEach(q => {
       const key = q.source ? "s:" + q.source : "a:" + (q.authorFilter || q.author || "Unknown");
@@ -812,9 +838,8 @@
     const key = t => t.replace(/^["“'‘]+/, "").replace(/^(The|A|An) /i, "").toLowerCase();
     const sorted = [...groups.values()].sort((a, b) => key(a.title).localeCompare(key(b.title)));
 
-    const back = el("a", "q-back", "← Life Library"); back.href = "#quotes";
-    qView.append(back, el("h3", "q-head", "Archive"),
-      el("p", "q-count", QUOTES.length + " quotes from " + sorted.length + " sources"));
+    const wrap = el("div");
+    wrap.appendChild(el("p", "q-count", "All " + QUOTES.length + " quotes, by source"));
     sorted.forEach(g => {
       const sec = el("div", "q-group");
       const h = g.link ? el("a", "q-group-title", g.title) : el("p", "q-group-title", g.title);
@@ -837,14 +862,20 @@
         ul.appendChild(li);
       });
       sec.appendChild(ul);
-      qView.appendChild(sec);
+      wrap.appendChild(sec);
     });
+    return wrap;
+  }
+
+  // Archive tab: search, topic menu and Surprise me on top; with nothing searched, every quote grouped by source
+  function renderArchive() {
+    qView.appendChild(searchBox(groupedArchive()));
   }
 
   // A topic page, reached from the topic links under each search result
   function renderLabel(label) {
     const list = QUOTES.filter(q => q.labels.includes(label));
-    const back = el("a", "q-back", "← Life Library"); back.href = "#quotes";
+    const back = el("a", "q-back", "← Archive"); back.href = "#quotes/archive";
     qView.append(back, el("h3", "q-head", label), el("p", "q-count", list.length + (list.length === 1 ? " quote" : " quotes")), quoteList(list));
   }
 
@@ -856,7 +887,9 @@
     if (!QUOTES) { qView.appendChild(el("p", "q-empty", "Quotes couldn't be loaded.")); return; }
     const sub = route.split("/")[1] || "";
     const label = LABELS.find(l => slug(l) === sub);
-    if (sub === "archive") renderArchive();
+    document.querySelectorAll(".q-tabs a").forEach(a => a.classList.toggle("active",
+      a.dataset.q === (sub === "" ? "home" : "archive")));
+    if (sub === "archive" || sub === "browse") renderArchive();
     else if (label) renderLabel(label);
     else renderHome();
   }
