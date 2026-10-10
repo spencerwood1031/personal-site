@@ -170,73 +170,57 @@
   @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
 
 
-  /* Quotes: one rotating quote on the landing page, label pages, and a browse/search page */
-  main:has(#quotes.active) { max-width: 680px; }
-  .q-tabs { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 36px; }
-  .q-tabs a {
-    text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--red); border-bottom: 2px solid transparent;
-  }
-  .q-tabs a:hover { border-bottom-color: var(--soft); }
-  .q-tabs a.active { border-bottom-color: var(--red); }
-  .q-about { font-size: 14px; line-height: 1.55; max-width: 560px; margin-bottom: 28px; }
-  .q-feature { min-height: 260px; display: flex; flex-direction: column; justify-content: center; }
-  .q-feature .q-body { transition: opacity 0.45s ease; }
-  .q-feature .q-body.fade { opacity: 0; }
-  .q-feature .q-text { font-weight: 500; font-size: 28px; line-height: 1.3; letter-spacing: -0.005em; }
-  .q-feature .q-text.long { font-size: 20px; line-height: 1.45; font-weight: 400; }
-  .q-feature .q-by { font-size: 15px; margin-top: 18px; }
-  .q-feature .q-labels { margin-top: 12px; }
-  .q-controls { display: flex; align-items: center; gap: 18px; margin-top: 30px; }
-  .q-btn {
-    background: none; border: 0; padding: 0; cursor: pointer; color: var(--red);
-    font: 700 12px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif;
-    letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid transparent;
-  }
-  .q-btn:hover { border-bottom-color: var(--soft); }
-  .q-timer { flex: 1; max-width: 120px; height: 2px; background: rgba(0, 0, 0, 0.1); overflow: hidden; }
-  .q-timer i { display: block; height: 100%; background: var(--red); width: 0; }
+  /* Life Library: one quote at a time, a search box, and a page per topic */
+  main:has(#quotes.active) { max-width: 640px; }
+  .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
+  .q-sub { font-size: 15px; margin-top: 6px; }
+  .q-feature { margin-top: 40px; min-height: 210px; }
+  .q-body { transition: opacity 0.45s ease; }
+  .q-body.fade { opacity: 0; }
+  .q-feature .q-text { font-weight: 500; font-size: 24px; line-height: 1.4; }
+  .q-feature .q-text.clamp { -webkit-line-clamp: 7; }
   .q-text { white-space: pre-line; overflow-wrap: break-word; }
+  .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
+  .q-by { font-size: 15px; margin-top: 14px; }
   .q-by .src { font-style: italic; }
   .q-by .att { font-size: 12px; font-style: italic; opacity: 0.6; }
+  .q-controls { display: flex; gap: 12px; margin-top: 28px; }
+  .q-btn {
+    background: none; border: 2px solid var(--red); border-radius: 0; padding: 9px 16px; cursor: pointer; color: var(--red);
+    font: 700 12px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .q-btn:hover { background: var(--red); color: var(--paper); }
+  .q-more { border: 0; padding: 0; margin-top: 8px; border-bottom: 2px solid transparent; }
+  .q-more:hover { background: none; color: var(--red); border-bottom-color: var(--soft); }
+  .q-search { margin-top: 72px; }
+  .q-find { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 16px; margin-top: 12px; }
+  .q-find input, .q-find select {
+    width: 100%; font: 400 16px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; color: var(--ink);
+    background: transparent; border: 0; border-bottom: 2px solid var(--red); border-radius: 0; padding: 8px 0;
+    -webkit-appearance: none; appearance: none; outline: none;
+  }
+  .q-find input::placeholder { color: rgba(0, 0, 0, 0.45); }
+  .q-find select {
+    cursor: pointer; padding-right: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23e10600' stroke-width='1.6'/%3E%3C/svg%3E") right 2px center / 10px no-repeat;
+  }
+  .q-count { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin: 22px 0 0; }
+  .q-count:empty { display: none; }
+  .q-list { list-style: none; margin-top: 10px; }
+  .q-list li { padding: 22px 0; border-top: 1px solid rgba(0, 0, 0, 0.15); }
+  .q-list .q-text { font-size: 17px; line-height: 1.5; }
+  .q-list .q-by { font-size: 14px; margin-top: 8px; }
+  .q-labels { margin-top: 8px; }
   .q-labels a {
     color: var(--red); text-decoration: none; font-size: 11px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase; margin-right: 14px; white-space: nowrap;
   }
   .q-labels a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .q-index { margin-top: 64px; columns: 2; column-gap: 40px; }
-  .q-index a {
-    display: flex; gap: 8px; text-decoration: none; padding: 2px 0; break-inside: avoid; font-size: 14.5px;
-  }
-  .q-index a:hover .n { text-decoration: underline; text-underline-offset: 3px; }
-  .q-index .dots {
-    flex: 1; min-width: 12px; height: 4px; align-self: center; margin-top: 4px;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.45) 1.15px, transparent 1.6px) left center / 8px 4px;
-    background-repeat: space no-repeat;
-  }
+  .q-back { display: inline-block; margin-bottom: 24px; text-decoration: none; color: var(--red);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .q-back:hover { text-decoration: underline; text-underline-offset: 3px; }
   .q-head { font-weight: 800; font-size: 30px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; color: var(--red); }
-  .q-count { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin: 10px 0 8px; }
-  .q-list { list-style: none; }
-  .q-list li { padding: 26px 0; border-top: 1px solid rgba(0, 0, 0, 0.15); }
-  .q-list li:first-child { border-top: 2px solid var(--red); }
-  .q-list .q-text { font-size: 17px; line-height: 1.5; }
-  .q-list .q-by { font-size: 14px; margin-top: 10px; }
-  .q-list .q-labels { margin-top: 8px; }
-  .q-feature .q-text.clamp, .q-list .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
-  .q-more { margin-top: 8px; }
-  .q-filters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 4px; }
-  .q-filters input, .q-filters select {
-    width: 100%; font: 400 15px "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif; color: var(--ink);
-    background: transparent; border: 0; border-bottom: 2px solid var(--red); border-radius: 0; padding: 8px 0;
-    -webkit-appearance: none; appearance: none; outline: none;
-  }
-  .q-filters input { grid-column: 1 / -1; font-size: 18px; }
-  .q-filters input::placeholder { color: rgba(0, 0, 0, 0.4); }
-  .q-filters select {
-    cursor: pointer; padding-right: 20px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23e10600' stroke-width='1.6'/%3E%3C/svg%3E") right 2px center / 10px no-repeat;
-  }
-  .q-empty { padding: 26px 0; font-style: italic; border-top: 2px solid var(--red); }
+  .q-empty { padding: 22px 0; font-style: italic; }
 
   /* Full-screen viewer */
   .viewer {
@@ -269,12 +253,10 @@
     .shelf-preview { display: none; }
     .row figure { width: 100%; flex: none !important; }
     .viewer { padding: 16px; }
-    .q-feature { min-height: 220px; }
-    .q-feature .q-text { font-size: 22px; }
-    .q-feature .q-text.long { font-size: 17px; }
-    .q-index { columns: 1; margin-top: 48px; }
+    .q-feature { min-height: 260px; margin-top: 32px; }
+    .q-feature .q-text { font-size: 20px; }
+    .q-find { grid-template-columns: minmax(0, 1fr); }
     .q-head { font-size: 24px; }
-    .q-filters { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 </head>
@@ -380,10 +362,6 @@
     </section>
     <!-- QUOTES (filled in from data/quotes.json; rebuild that file with scripts/build_quotes.py) -->
     <section id="quotes">
-      <div class="q-tabs">
-        <a href="#quotes" data-q="home">Rotating</a>
-        <a href="#quotes/browse" data-q="browse">Browse &amp; Search</a>
-      </div>
       <div id="q-view"></div>
     </section>
   </main>
@@ -651,7 +629,7 @@
     "Fitness", "Wellness",
   ];
   const ROTATE_MAX = 280;    // with no favorites marked yet, quotes shorter than this rotate instead
-  const ROTATE_EVERY = 10000; // milliseconds
+  const ROTATE_EVERY = 20000; // milliseconds; paused while the mouse is over the quote
   const LONG = 600;          // quotes longer than this get a "Read more" toggle
   const qView = document.getElementById("q-view");
   let QUOTES = null, qLoading = null, rotateTimer = null;
@@ -728,117 +706,98 @@
     // Until any are marked Favorite, fall back to the short quotes
     const favs = QUOTES.filter(q => q.favorite);
     const pool = favs.length ? favs : QUOTES.filter(q => q.length < ROTATE_MAX);
+
+    // What this page is, in one line
+    const head = el("div");
+    head.append(el("p", "q-kicker", "A commonplace book"),
+      el("p", "q-sub", "Lines I've copied down over the years because they were worth keeping."));
+
+    // One quote at a time
     const box = el("div", "q-feature");
     const body = el("div", "q-body");
     box.appendChild(body);
     const controls = el("div", "q-controls");
-    const next = el("button", "q-btn", "Next →");
-    const bar = el("div", "q-timer"); const fill = el("i"); bar.appendChild(fill);
-    const random = el("button", "q-btn", "Random quote");
-    controls.append(next, random, bar);
+    const next = el("button", "q-btn", "Next quote →");
+    const random = el("button", "q-btn", "Surprise me");
+    controls.append(next, random);
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const fillBar = () => {
-      fill.style.transition = "none"; fill.style.width = "0";
-      void fill.offsetWidth;
-      fill.style.transition = "width " + ROTATE_EVERY + "ms linear"; fill.style.width = "100%";
-    };
     const put = q => {
       body.innerHTML = "";
-      const t = el("p", "q-text" + (q.length > ROTATE_MAX ? " long" : ""), q.text);
+      const t = el("p", "q-text", q.text);
       body.appendChild(t);
       if (q.length > LONG) {
         t.classList.add("clamp");
         const b = el("button", "q-btn q-more", "Read more");
-        b.addEventListener("click", () => { b.textContent = t.classList.toggle("clamp") ? "Read more" : "Show less"; });
+        b.addEventListener("click", () => { b.textContent = t.classList.toggle("clamp") ? "Read more" : "Show less"; stop(); });
         body.appendChild(b);
       }
-      body.append(byline(q), labelLinks(q));
+      body.append(byline(q));
     };
     const display = q => {
       if (still || !body.firstChild) { put(q); }
       else { body.classList.add("fade"); setTimeout(() => { put(q); body.classList.remove("fade"); }, 450); }
     };
-    const advance = () => {
-      display(nextQuote(pool));
-      clearInterval(rotateTimer);
-      rotateTimer = setInterval(advance, ROTATE_EVERY);
-      fillBar();
-    };
-    // Random: any quote from the whole library. The rotation pauses so there's time to read it;
-    // Next starts it again.
-    let lastRandom = null;
+    let paused = false;
+    const stop = () => clearInterval(rotateTimer);
+    const start = () => { stop(); rotateTimer = setInterval(() => { if (!paused) display(nextQuote(pool)); }, ROTATE_EVERY); };
+    box.addEventListener("mouseenter", () => { paused = true; });
+    box.addEventListener("mouseleave", () => { paused = false; });
+    next.addEventListener("click", () => { display(nextQuote(pool)); start(); });
+    // Surprise me: any quote from the whole library; rotation stops so there's time to read it
     random.addEventListener("click", () => {
       let q;
-      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && (q === lastRandom || q === lastShown));
-      lastRandom = q;
+      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && q === lastShown);
+      lastShown = q;
       display(q);
-      clearInterval(rotateTimer);
-      fill.style.transition = "none"; fill.style.width = "0";
+      stop();
     });
-    next.addEventListener("click", advance);
 
-    // Every label, with how many quotes it has
-    const idx = el("div", "q-index");
+    qView.append(head, box, controls, searchBox());
+    if (pool.length) { display(nextQuote(pool)); start(); }
+  }
+
+  // Search: one box plus a topic menu. Results show up only once something is typed or picked.
+  let qSearch = { text: "", label: "" };
+  function searchBox() {
+    const wrap = el("div", "q-search");
+    wrap.appendChild(el("p", "q-kicker", "Search all " + QUOTES.length + " quotes"));
+    const f = el("div", "q-find");
+    const input = el("input"); input.type = "search"; input.value = qSearch.text;
+    input.placeholder = "Try a word or a name, like “risk” or “Munger”";
+    input.setAttribute("aria-label", "Search quotes");
+    const topic = el("select"); topic.setAttribute("aria-label", "Topic");
+    topic.appendChild(new Option("Or pick a topic", ""));
     LABELS.forEach(l => {
       const n = QUOTES.filter(q => q.labels.includes(l)).length;
-      if (!n) return;
-      const a = el("a"); a.href = labelHref(l);
-      a.append(el("span", "n", l), el("span", "dots"), el("span", null, n));
-      idx.appendChild(a);
+      if (n) topic.appendChild(new Option(l + " (" + n + ")", l));
     });
-    // What this page is: edit the wording here
-    const about = el("p", "q-about",
-      "Since the ancient Greeks and Romans, readers have kept commonplace books: notebooks where they copied down " +
-      "passages worth remembering and sorted them by theme, so the best ideas they came across stayed within reach. " +
-      "This is mine, gathered over years of reading, listening and scrolling.");
-    qView.append(about, box, controls, idx);
-    if (pool.length) advance();
-  }
-
-  function renderLabel(label) {
-    const list = QUOTES.filter(q => q.labels.includes(label));
-    qView.append(el("h3", "q-head", label), el("p", "q-count", list.length + (list.length === 1 ? " quote" : " quotes")), quoteList(list));
-  }
-
-  let qSearch = { text: "", label: "", author: "" };
-  function renderBrowse() {
-    const f = el("div", "q-filters");
-    const input = el("input"); input.type = "search"; input.placeholder = "Search quotes"; input.value = qSearch.text;
-    input.setAttribute("aria-label", "Search quotes");
-    const pick = (all, opts, val) => {
-      const s = el("select"); s.setAttribute("aria-label", all);
-      s.appendChild(new Option(all, ""));
-      opts.forEach(([v, n]) => s.appendChild(new Option(v + " (" + n + ")", v)));
-      s.value = val;
-      return s;
-    };
-    const count = (key) => {
-      const m = new Map();
-      QUOTES.forEach(q => (key === "labels" ? q.labels : [q.authorFilter]).forEach(v => v && m.set(v, (m.get(v) || 0) + 1)));
-      return m;
-    };
-    const lc = count("labels"), ac = count("author");
-    const labelSel = pick("All labels", LABELS.filter(l => lc.has(l)).map(l => [l, lc.get(l)]), qSearch.label);
-    const authorSel = pick("All authors", [...ac].sort((a, b) => a[0].localeCompare(b[0])), qSearch.author);
-    f.append(input, labelSel, authorSel);
+    topic.value = qSearch.label;
+    f.append(input, topic);
     const n = el("p", "q-count");
     const out = el("div");
     const norm = t => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
     const run = () => {
-      qSearch = { text: input.value, label: labelSel.value, author: authorSel.value };
+      qSearch = { text: input.value, label: topic.value };
       const words = norm(qSearch.text).split(/\s+/).filter(Boolean);
+      if (!words.length && !qSearch.label) { n.textContent = ""; out.replaceChildren(); return; }
       const list = QUOTES.filter(q =>
         (!qSearch.label || q.labels.includes(qSearch.label)) &&
-        (!qSearch.author || q.authorFilter === qSearch.author) &&
         words.every(w => norm(q.text + " " + q.author + " " + q.source).includes(w)));
       n.textContent = list.length + (list.length === 1 ? " quote" : " quotes");
       out.replaceChildren(quoteList(list));
     };
     input.addEventListener("input", run);
-    labelSel.addEventListener("change", run);
-    authorSel.addEventListener("change", run);
-    qView.append(f, n, out);
+    topic.addEventListener("change", run);
+    wrap.append(f, n, out);
     run();
+    return wrap;
+  }
+
+  // A topic page, reached from the topic links under each search result
+  function renderLabel(label) {
+    const list = QUOTES.filter(q => q.labels.includes(label));
+    const back = el("a", "q-back", "← Life Library"); back.href = "#quotes";
+    qView.append(back, el("h3", "q-head", label), el("p", "q-count", list.length + (list.length === 1 ? " quote" : " quotes")), quoteList(list));
   }
 
   async function showQuotes(route) {
@@ -849,10 +808,7 @@
     if (!QUOTES) { qView.appendChild(el("p", "q-empty", "Quotes couldn't be loaded.")); return; }
     const sub = route.split("/")[1] || "";
     const label = LABELS.find(l => slug(l) === sub);
-    document.querySelectorAll(".q-tabs a").forEach(a => a.classList.toggle("active",
-      a.dataset.q === (sub === "browse" ? "browse" : label ? "" : "home")));
-    if (sub === "browse") renderBrowse();
-    else if (label) renderLabel(label);
+    if (label) renderLabel(label);
     else renderHome();
   }
 
