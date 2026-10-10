@@ -728,8 +728,7 @@
     box.appendChild(body);
     const controls = el("div", "q-controls");
     const next = el("button", "q-btn", "Next quote →");
-    const random = el("button", "q-btn", "Surprise me");
-    controls.append(next, random);
+    controls.append(next);
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const put = q => {
       body.innerHTML = "";
@@ -753,14 +752,6 @@
     box.addEventListener("mouseenter", () => { paused = true; });
     box.addEventListener("mouseleave", () => { paused = false; });
     next.addEventListener("click", () => { display(nextQuote(pool)); start(); });
-    // Surprise me: any quote from the whole library; rotation stops so there's time to read it
-    random.addEventListener("click", () => {
-      let q;
-      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && q === lastShown);
-      lastShown = q;
-      display(q);
-      stop();
-    });
 
     qView.append(head, box, controls, searchBox());
     if (pool.length) { display(nextQuote(pool)); start(); }
