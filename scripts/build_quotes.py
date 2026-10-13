@@ -39,6 +39,20 @@ LABELS = [
 EXCLUDE = {
     "Q0074",  # reflexivity definition credited to Claude
 }
+# X/Instagram handles shown under the person's real name, so their quotes group together.
+# Handles left out of this list stay as @handle (real name not widely known).
+AUTHOR_NAMES = {
+    "@__paleologo": "Giuseppe Paleologo",
+    "@davidbessis": "David Bessis",
+    "@justinskycak": "Justin Skycak",
+    "@KrisAbdelmessih": "Kris Abdelmessih",
+    "@morganhousel": "Morgan Housel",
+    "@Noahpinion": "Noah Smith",
+    "@patio11": "Patrick McKenzie",
+    "@patrickc": "Patrick Collison",
+    "@visakanv": "Visakan Veerasamy",
+    "@WillManidis": "Will Manidis",
+}
 # Spelling differences forgiven when matching a label (lowercase, spaces/dashes ignored)
 CANON = {l.lower().replace("-", "").replace(" ", ""): l for l in LABELS}
 
@@ -91,6 +105,7 @@ def main():
         if qid.endswith(".0"):
             qid = qid[:-2]
         author = get(row, "Author")
+        author = AUTHOR_NAMES.get(author, author)
         quotes.append({
             "id": qid,
             "text": text,
