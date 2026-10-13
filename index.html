@@ -170,7 +170,7 @@
   @media (prefers-reduced-motion: reduce) { .row figure { opacity: 1; transform: none; transition: none; } }
 
 
-  /* Life Library: one quote at a time, a search box, and a page per topic */
+  /* Commonplace Book: one quote at a time, a search box, and a page per topic */
   main:has(#quotes.active) { max-width: 640px; }
   .q-tabs { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 36px; }
   .q-tabs a {
@@ -317,7 +317,7 @@
       <a href="#books" data-tab="books">Bookshelf</a>
       <a href="#photography" data-tab="photography">Photography</a>
       <a href="#articles" data-tab="articles">Articles</a>
-      <a href="#quotes" data-tab="quotes">Life Library</a>
+      <a href="#quotes" data-tab="quotes">Commonplace Book</a>
     </nav>
   </aside>
 
@@ -385,8 +385,8 @@
     <!-- QUOTES (filled in from data/quotes.json; rebuild that file with scripts/build_quotes.py) -->
     <section id="quotes">
       <div class="q-tabs">
-        <a href="#quotes" data-q="home">Commonplace Book</a>
-        <a href="#quotes/archive" data-q="archive">Archive</a>
+        <a href="#quotes" data-q="home">Favorites</a>
+        <a href="#quotes/archive" data-q="archive">Full Archive</a>
       </div>
       <div id="q-view"></div>
     </section>
@@ -894,7 +894,7 @@
   // A topic page, reached from the topic links under each search result
   function renderLabel(label) {
     const list = QUOTES.filter(q => q.labels.includes(label));
-    const back = el("a", "q-back", "← Archive"); back.href = "#quotes/archive";
+    const back = el("a", "q-back", "← Full Archive"); back.href = "#quotes/archive";
     qView.append(back, el("h3", "q-head", label), el("p", "q-count", list.length + (list.length === 1 ? " quote" : " quotes")), quoteList(list));
   }
 
