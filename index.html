@@ -678,8 +678,7 @@
   };
   const labelHref = l => "#quotes/" + slug(l);
 
-  // "Author, Source" — author first; "(attributed)" when it's only likely theirs;
-  // no author: the source, or "Unknown". The source links out when there's a link.
+  // "Author, Source" — author exactly as written; no author: the source, or "Unknown". The source links out when there's a link.
   function byline(q) {
     const p = el("p", "q-by");
     const src = () => {
@@ -689,7 +688,6 @@
     };
     if (q.author) {
       p.append("— " + q.author);
-      if (q.attribution.toLowerCase() === "likely") p.append(" ", el("span", "att", "(attributed)"));
       if (q.source) p.append(", ", src());
     } else if (q.source || q.link) {
       p.append("— ", src());
@@ -848,10 +846,10 @@
   function groupedArchive() {
     const groups = new Map();
     QUOTES.forEach(q => {
-      const key = q.source ? "s:" + q.source : "a:" + (q.authorFilter || q.author || "Unknown");
-      if (!groups.has(key)) groups.set(key, { title: q.source || q.authorFilter || q.author || "Unknown", source: !!q.source, link: q.link, authors: new Set(), quotes: [] });
+      const key = q.source ? "s:" + q.source : "a:" + (q.author || "Unknown");
+      if (!groups.has(key)) groups.set(key, { title: q.source || q.author || "Unknown", source: !!q.source, link: q.link, authors: new Set(), quotes: [] });
       const g = groups.get(key);
-      if (q.source && q.author) g.authors.add(q.authorFilter || q.author);
+      if (q.source && q.author) g.authors.add(q.author);
       if (!g.link && q.link) g.link = q.link;
       g.quotes.push(q);
     });
