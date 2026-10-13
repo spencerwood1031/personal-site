@@ -654,7 +654,6 @@
     "Management", "Technology", "Leadership", "Philosophy", "Business", "Science", "Society", "Politics",
     "Fitness", "Wellness",
   ];
-  const ROTATE_MAX = 280;    // with no favorites marked yet, quotes shorter than this rotate instead
   // How long each rotating quote stays up, by length (characters). Edit the numbers to taste.
   // The clock pauses while the mouse is over the quote, and stops once "Read more" is opened.
   const SHOW_FOR = [
@@ -736,9 +735,8 @@
     return (lastShown = deck.pop());
   }
   function renderHome() {
-    // Until any are marked Favorite, fall back to the short quotes
-    const favs = QUOTES.filter(q => q.favorite);
-    const pool = favs.length ? favs : QUOTES.filter(q => q.length < ROTATE_MAX);
+    // Every quote in the collection rotates here
+    const pool = QUOTES;
 
     // What a commonplace book is. Edit the wording here.
     const head = el("div");
