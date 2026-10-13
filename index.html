@@ -789,7 +789,7 @@
     input.setAttribute("aria-label", "Search quotes");
     const topic = el("select"); topic.setAttribute("aria-label", "Topic");
     topic.appendChild(new Option("Or pick a topic", ""));
-    LABELS.forEach(l => {
+    [...LABELS].sort((a, b) => a.localeCompare(b)).forEach(l => {
       const n = QUOTES.filter(q => q.labels.includes(l)).length;
       if (n) topic.appendChild(new Option(l + " (" + n + ")", l));
     });
