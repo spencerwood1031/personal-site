@@ -677,22 +677,10 @@
   };
   const labelHref = l => "#quotes/" + slug(l);
 
-  // "Author, Source" — author exactly as written; no author: the source, or "Unknown". The source links out when there's a link.
+  // Just the author, exactly as written, or "Unknown"
   function byline(q) {
     const p = el("p", "q-by");
-    const src = () => {
-      const s = q.link ? el("a", "src", q.source || q.link) : el("span", "src", q.source);
-      if (q.link) { s.href = q.link; s.target = "_blank"; s.rel = "noopener"; }
-      return s;
-    };
-    if (q.author) {
-      p.append("— " + q.author);
-      if (q.source) p.append(", ", src());
-    } else if (q.source || q.link) {
-      p.append("— ", src());
-    } else {
-      p.append("— Unknown");
-    }
+    p.append("— " + (q.author || "Unknown"));
     return p;
   }
   function labelLinks(q) {
@@ -797,7 +785,7 @@
     wrap.appendChild(el("p", "q-kicker", "Search all " + QUOTES.length + " quotes"));
     const f = el("div", "q-find");
     const input = el("input"); input.type = "search"; input.value = qSearch.text;
-    input.placeholder = "Try a word or a name, like “risk” or “Munger”";
+    input.placeholder = "Try a word or a name, like “risk” or “Paul Graham”";
     input.setAttribute("aria-label", "Search quotes");
     const topic = el("select"); topic.setAttribute("aria-label", "Topic");
     topic.appendChild(new Option("Or pick a topic", ""));
@@ -816,7 +804,7 @@
       if (!words.length && !qSearch.label) { n.textContent = ""; out.replaceChildren(idle); return; }
       const list = QUOTES.filter(q =>
         (!qSearch.label || q.labels.includes(qSearch.label)) &&
-        words.every(w => norm(q.text + " " + q.author + " " + q.source).includes(w)));
+        words.every(w => norm(q.text + " " + q.author).includes(w)));
       n.textContent = list.length + (list.length === 1 ? " quote" : " quotes");
       out.replaceChildren(quoteList(list));
     };
@@ -839,29 +827,22 @@
     return wrap;
   }
 
-  // Full archive: every quote, grouped under the article (or book, newsletter...) it came from.
-  // Quotes with no source recorded are grouped under their author.
+  // Full archive: every quote, grouped under its author, A–Z
   function groupedArchive() {
     const groups = new Map();
     QUOTES.forEach(q => {
-      const key = q.source ? "s:" + q.source : "a:" + (q.author || "Unknown");
-      if (!groups.has(key)) groups.set(key, { title: q.source || q.author || "Unknown", source: !!q.source, link: q.link, authors: new Set(), quotes: [] });
-      const g = groups.get(key);
-      if (q.source && q.author) g.authors.add(q.author);
-      if (!g.link && q.link) g.link = q.link;
-      g.quotes.push(q);
+      const name = q.author || "Unknown";
+      if (!groups.has(name)) groups.set(name, { title: name, quotes: [] });
+      groups.get(name).quotes.push(q);
     });
-    const key = t => t.replace(/^["“'‘]+/, "").replace(/^(The|A|An) /i, "").toLowerCase();
+    const key = t => t.replace(/^[@"“'‘]+/, "").toLowerCase();
     const sorted = [...groups.values()].sort((a, b) => key(a.title).localeCompare(key(b.title)));
 
     const wrap = el("div");
-    wrap.appendChild(el("p", "q-count", "All " + QUOTES.length + " quotes, by source"));
+    wrap.appendChild(el("p", "q-count", "All " + QUOTES.length + " quotes, by author"));
     sorted.forEach(g => {
       const sec = el("div", "q-group");
-      const h = g.link ? el("a", "q-group-title", g.title) : el("p", "q-group-title", g.title);
-      if (g.link) { h.href = g.link; h.target = "_blank"; h.rel = "noopener"; }
-      sec.appendChild(h);
-      if (g.source && g.authors.size) sec.appendChild(el("p", "q-group-by", [...g.authors].join(", ")));
+      sec.appendChild(el("p", "q-group-title", g.title));
       const ul = el("ul", "q-list");
       g.quotes.forEach(q => {
         const li = el("li");
@@ -873,8 +854,6 @@
           b.addEventListener("click", () => { b.textContent = t.classList.toggle("clamp") ? "Read more" : "Show less"; });
           li.appendChild(b);
         }
-        // Grouped by author already when there's no source; otherwise only note a different speaker
-        if (g.source && q.author && g.authors.size > 1) li.appendChild(el("p", "q-by", "— " + q.author));
         ul.appendChild(li);
       });
       sec.appendChild(ul);
