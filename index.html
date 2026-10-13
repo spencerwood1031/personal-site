@@ -655,7 +655,16 @@
     "Fitness", "Wellness",
   ];
   const ROTATE_MAX = 280;    // with no favorites marked yet, quotes shorter than this rotate instead
-  const ROTATE_EVERY = 20000; // milliseconds; paused while the mouse is over the quote
+  // How long each rotating quote stays up, by length (characters). Edit the numbers to taste.
+  // The clock pauses while the mouse is over the quote, and stops once "Read more" is opened.
+  const SHOW_FOR = [
+    { upTo: 150, seconds: 15 },
+    { upTo: 300, seconds: 20 },
+    { upTo: 500, seconds: 30 },
+    { upTo: 800, seconds: 40 },
+    { upTo: Infinity, seconds: 50 },
+  ];
+  const secondsFor = q => SHOW_FOR.find(b => q.length <= b.upTo).seconds;
   const LONG = 600;          // quotes longer than this get a "Read more" toggle
   const qView = document.getElementById("q-view");
   let QUOTES = null, qLoading = null, rotateTimer = null;
@@ -765,16 +774,23 @@
       if (still || !body.firstChild) { put(q); }
       else { body.classList.add("fade"); setTimeout(() => { put(q); body.classList.remove("fade"); }, 450); }
     };
-    let paused = false;
+    let paused = false, left = 0;
     const stop = () => clearInterval(rotateTimer);
-    const start = () => { stop(); rotateTimer = setInterval(() => { if (!paused) display(nextQuote(pool)); }, ROTATE_EVERY); };
+    // Show the next quote and count down its time, one second at a time
+    const advance = () => {
+      const q = nextQuote(pool);
+      display(q);
+      left = secondsFor(q);
+      stop();
+      rotateTimer = setInterval(() => { if (!paused && --left <= 0) advance(); }, 1000);
+    };
     box.addEventListener("mouseenter", () => { paused = true; });
     box.addEventListener("mouseleave", () => { paused = false; });
-    next.addEventListener("click", () => { display(nextQuote(pool)); start(); });
+    next.addEventListener("click", advance);
 
     box.appendChild(controls);
     qView.append(head, box);
-    if (pool.length) { display(nextQuote(pool)); start(); }
+    if (pool.length) advance();
   }
 
   // Search: one box plus a topic menu. Results show up only once something is typed or picked.
