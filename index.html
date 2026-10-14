@@ -181,12 +181,8 @@
   .q-tabs a.active { border-bottom-color: var(--red); }
   .q-intro { font-size: 15px; line-height: 1.6; }
   .q-intro + .q-intro { margin-top: 0.8em; }
-  .q-surprise { margin-top: 20px; }
-  .q-pick { margin-top: 22px; padding: 22px 0; border-top: 2px solid var(--red); border-bottom: 2px solid var(--red); }
-  .q-pick .q-list { margin: 0; }
-  .q-pick .q-list li { border: 0; padding: 0; }
-  .q-pick .q-text { font-size: 17px; line-height: 1.5; }
-  .q-pick .q-by { font-size: 14px; margin-top: 8px; }
+  .q-surprise-box .q-list { margin: 0; }
+  .q-surprise-box .q-list li { border: 0; padding: 0; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
   .q-feature { margin-top: 36px; padding: 26px 28px; background: rgba(0, 0, 0, 0.035); border: 1px solid rgba(0, 0, 0, 0.15); }
   .q-feature .q-body { min-height: 125px; }
@@ -387,6 +383,7 @@
       <div class="q-tabs">
         <a href="#quotes" data-q="home">Favorites</a>
         <a href="#quotes/archive" data-q="archive">Full Archive</a>
+        <a href="#quotes/surprise" data-q="surprise">Surprise Me</a>
       </div>
       <div id="q-view"></div>
     </section>
@@ -810,19 +807,7 @@
     };
     input.addEventListener("input", run);
     topic.addEventListener("change", run);
-    // Surprise me: one random quote from the whole library, shown above everything else
-    const surprise = el("button", "q-btn q-surprise", "Surprise me");
-    const pick = el("div");
-    let lastPick = null;
-    surprise.addEventListener("click", () => {
-      let q;
-      do { q = QUOTES[Math.floor(Math.random() * QUOTES.length)]; } while (QUOTES.length > 1 && q === lastPick);
-      lastPick = q;
-      const box = el("div", "q-pick");
-      box.appendChild(quoteList([q]));
-      pick.replaceChildren(box);
-    });
-    wrap.append(f, surprise, pick, n, out);
+    wrap.append(f, n, out);
     run();
     return wrap;
   }
@@ -862,7 +847,7 @@
     return wrap;
   }
 
-  // Archive tab: search, topic menu and Surprise me on top; with nothing searched, every quote grouped by source
+  // Archive tab: search and topic menu on top; with nothing searched, every quote grouped by author
   function renderArchive() {
     qView.appendChild(searchBox(groupedArchive()));
   }
@@ -874,6 +859,28 @@
     qView.append(back, el("h3", "q-head", label), el("p", "q-count", list.length + (list.length === 1 ? " quote" : " quotes")), quoteList(list));
   }
 
+  // Surprise Me tab: one random quote from the whole collection, and a button for another.
+  // Its own shuffled deck, so no quote repeats until all have been shown.
+  let surpriseDeck = [];
+  function renderSurprise() {
+    const box = el("div", "q-feature q-surprise-box");
+    const body = el("div", "q-body");
+    const again = el("button", "q-btn", "Surprise me again");
+    const controls = el("div", "q-controls");
+    controls.append(again);
+    const show = () => {
+      if (!surpriseDeck.length) {
+        surpriseDeck = QUOTES.slice();
+        for (let i = surpriseDeck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [surpriseDeck[i], surpriseDeck[j]] = [surpriseDeck[j], surpriseDeck[i]]; }
+      }
+      body.replaceChildren(quoteList([surpriseDeck.pop()]));
+    };
+    again.addEventListener("click", show);
+    box.append(body, controls);
+    qView.append(box);
+    show();
+  }
+
   async function showQuotes(route) {
     clearInterval(rotateTimer);
     await loadQuotes().catch(() => null);
@@ -883,8 +890,9 @@
     const sub = route.split("/")[1] || "";
     const label = LABELS.find(l => slug(l) === sub);
     document.querySelectorAll(".q-tabs a").forEach(a => a.classList.toggle("active",
-      a.dataset.q === (sub === "" ? "home" : "archive")));
+      a.dataset.q === (sub === "" ? "home" : sub === "surprise" ? "surprise" : "archive")));
     if (sub === "archive" || sub === "browse") renderArchive();
+    else if (sub === "surprise") renderSurprise();
     else if (label) renderLabel(label);
     else renderHome();
   }
