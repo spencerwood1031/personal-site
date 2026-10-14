@@ -896,7 +896,8 @@
     };
     again.addEventListener("click", show);
     box.append(body, controls);
-    qView.append(box);
+    const note = el("p", "q-intro q-note", "Note: The inclusion of a quote does not necessarily mean I endorse it.");
+    qView.append(box, note);
     show();
   }
 
