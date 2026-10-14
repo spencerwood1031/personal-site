@@ -53,7 +53,8 @@ AUTHOR_NAMES = {
     "@visakanv": "Visakan Veerasamy",
     "@WillManidis": "Will Manidis",
     # Other credits corrected on the site
-    "After Daniel Kahneman": "Daniel Kahneman",  # Instagram Generation line; widely credited to him since 2014
+    "After Daniel Kahneman": "Daniel Kahneman",
+    "Carmen (Altered)": "Carmen (Altered Substack)",  # Instagram Generation line; widely credited to him since 2014
 }
 # Spelling differences forgiven when matching a label (lowercase, spaces/dashes ignored)
 CANON = {l.lower().replace("-", "").replace(" ", ""): l for l in LABELS}
