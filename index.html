@@ -187,13 +187,15 @@
   .q-surprise-box .q-list li { border: 0; padding: 0; }
   .q-surprise-box .q-labels { display: none; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
-  /* The quote sits between big red quotation marks: one at top left, one at bottom right */
+  /* The quote sits between big red quotation marks: one at top left, one closing it at bottom right; button below */
   .q-feature { position: relative; margin-top: 36px; padding: 48px 0 8px; }
-  .q-feature::before, .q-feature::after {
+  .q-feature::before, .q-feature .q-body::after {
     position: absolute; font-size: 96px; font-weight: 800; line-height: 1; color: var(--red);
   }
   .q-feature::before { content: "\201C"; top: -16px; left: -4px; }
-  .q-feature::after { content: "\201D"; bottom: -48px; right: -4px; }
+  .q-feature .q-body { position: relative; padding-bottom: 8px; }
+  .q-feature .q-body::after { content: "\201D"; bottom: -62px; right: -4px; }
+  .q-feature .q-controls { margin-top: 48px; }
   .q-feature .q-body { min-height: 125px; }
   .q-body { transition: opacity 0.45s ease; }
   .q-body.fade { opacity: 0; }
