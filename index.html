@@ -179,7 +179,7 @@
   }
   .q-tabs a:hover { border-bottom-color: var(--soft); }
   .q-tabs a.active { border-bottom-color: var(--red); }
-  .q-intro { font-size: 18px; line-height: 1.6; }
+  .q-intro { font-size: 15px; line-height: 1.6; }
   .q-intro + .q-intro { margin-top: 0.8em; }
   /* "commonplace book" in the intro, styled like the tab headers */
   .q-term { color: var(--red); font-weight: 700; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -187,16 +187,16 @@
   .q-surprise-box .q-list li { border: 0; padding: 0; }
   .q-surprise-box .q-labels { display: none; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
-  /* The quote sits between big red quotation marks: one at top left, one closing it at bottom right; button below */
-  .q-feature { position: relative; margin-top: 36px; padding: 48px 0 8px; }
+  /* The quote sits in a thin red box between big red quotation marks: one at top left, one closing it at
+     bottom right. The button is as far below the quote as it is above the bottom of the box. */
+  .q-feature { position: relative; margin-top: 36px; padding: 68px 32px 32px; border: 2px solid var(--red); }
   .q-feature::before, .q-feature .q-body::after {
     position: absolute; font-size: 96px; font-weight: 800; line-height: 1; color: var(--red);
   }
-  .q-feature::before { content: "\201C"; top: -16px; left: -4px; }
-  .q-feature .q-body { position: relative; padding-bottom: 8px; }
-  .q-feature .q-body::after { content: "\201D"; bottom: -62px; right: -4px; }
-  .q-feature .q-controls { margin-top: 48px; }
-  .q-feature .q-body { min-height: 125px; }
+  .q-feature::before { content: "\201C"; top: 8px; left: 26px; }
+  .q-feature .q-body { position: relative; }
+  .q-feature .q-body::after { content: "\201D"; bottom: -56px; right: -8px; }
+  .q-feature .q-controls { margin-top: 32px; }
   .q-body { transition: opacity 0.45s ease; }
   .q-body.fade { opacity: 0; }
   .q-feature .q-text { font-size: 18px; line-height: 1.5; }
@@ -281,9 +281,9 @@
     .shelf-preview { display: none; }
     .row figure { width: 100%; flex: none !important; }
     .viewer { padding: 16px; }
-    .q-feature { margin-top: 28px; }
-    .q-intro { font-size: 17px; }
-    .q-feature .q-body { min-height: 200px; }
+    .q-feature { margin-top: 28px; padding: 60px 20px 24px; }
+    .q-feature::before { top: 4px; left: 14px; }
+    .q-feature .q-controls { margin-top: 24px; }
     .q-feature .q-text { font-size: 17px; }
     .q-find { grid-template-columns: minmax(0, 1fr); }
     .q-head { font-size: 24px; }
