@@ -185,9 +185,9 @@
   "source": "",
   "link": "",
   "labels": [
+   "Relationships",
    "Character",
-   "Life",
-   "Relationships"
+   "Life"
   ],
   "length": 890,
   "favorite": false
@@ -635,8 +635,8 @@
   "source": "\"Anti-Aging Tips From Blackjack and Finance Guru Ed Thorp\" (Bloomberg)",
   "link": "https://www.bloomberg.com/news/features/2024-04-10/anti-aging-tips-from-blackjack-and-finance-guru-ed-thorp",
   "labels": [
-   "Decision-Making",
-   "Wellness"
+   "Wellness",
+   "Decision-Making"
   ],
   "length": 462,
   "favorite": false
@@ -1073,7 +1073,6 @@
   "source": "University of Houston commencement speech",
   "link": "https://www.youtube.com/watch?v=3QWQKrJkR9A&ab_channel=BestMotivisation",
   "labels": [
-   "Career",
    "Mindset"
   ],
   "length": 84,
@@ -1555,8 +1554,8 @@
   "source": "Sonnet 138, shared in X post by Christopher (@molochofficial), Mar 9, 2026",
   "link": "",
   "labels": [
-   "Art",
-   "Relationships"
+   "Relationships",
+   "Beauty"
   ],
   "length": 615,
   "favorite": false
@@ -3759,8 +3758,8 @@
   "source": "",
   "link": "",
   "labels": [
-   "Career",
-   "Life"
+   "Life",
+   "Career"
   ],
   "length": 281,
   "favorite": false
