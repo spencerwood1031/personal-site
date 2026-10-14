@@ -728,7 +728,7 @@
     return ul;
   }
 
-  // Landing page: the quotes marked Favorite, shuffled fresh on every visit.
+  // Favorites tab: the favorite quotes, shuffled fresh on every visit.
   // Each one shows once before any repeats.
   let deck = [], lastShown = null;
   function nextQuote(pool) {
@@ -740,8 +740,8 @@
     return (lastShown = deck.pop());
   }
   function renderHome() {
-    // Every quote in the collection rotates here
-    const pool = QUOTES;
+    // The favorites rotate here (data/favorite_ids.txt picks them)
+    const pool = QUOTES.filter(q => q.favorite);
 
     // Intro: one line about this collection. "Commonplace book" in it is a button that opens what one is.
     // Edit the wording here.

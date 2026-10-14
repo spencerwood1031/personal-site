@@ -5,7 +5,8 @@ Run from the repo root:
     python3 scripts/build_quotes.py                 # trial: only "Notion: Life Library" rows
     python3 scripts/build_quotes.py --all           # every row on the Master tab
 
-Rows with Favorite = "Yes" rotate on the Life Library front page. They're always
+Which quotes rotate on the Favorites tab: the IDs listed in data/favorite_ids.txt (one per
+line) when that file exists, otherwise rows with Favorite = "Yes". Favorites are always
 included, even when they come from somewhere other than --source.
 
 Options:
@@ -14,7 +15,8 @@ Options:
     --all            ignore "Came from" and use every row
     --out PATH       where to write (default: data/quotes.json)
 
-The private columns (My notes, Context, Screenshot file) are never copied.
+Only the quote, author, topics, length and favorite flag are published; source, link and the
+private columns (My notes, Context, Screenshot file) are never copied.
 Needs openpyxl:  python3 -m pip install openpyxl
 """
 import argparse
@@ -52,6 +54,10 @@ AUTHOR_NAMES = {
     "@patrickc": "Patrick Collison",
     "@visakanv": "Visakan Veerasamy",
     "@WillManidis": "Will Manidis",
+    "@mattyglesias": "Matthew Yglesias",
+    "@MattBruenig": "Matt Bruenig",
+    "@BasilHalperin": "Basil Halperin",
+    "@tedfrank": "Ted Frank",
     # Other credits corrected on the site
     "After Daniel Kahneman": "Daniel Kahneman",
     "Carmen (Altered)": "Carmen (Altered Substack)",
@@ -87,12 +93,21 @@ def main():
         i = col.get(name)
         return clean(row[i]) if i is not None and i < len(row) else ""
 
+    fav_file = Path(args.out).parent / "favorite_ids.txt"
+    fav_ids = set(fav_file.read_text().split()) if fav_file.exists() else None
+
     quotes, unknown = [], {}
     for row in rows:
         text = get(row, "Quote")
         if not text or get(row, "ID") in EXCLUDE:
             continue
-        favorite = get(row, "Favorite").lower() in ("yes", "y", "true", "1")
+        qid = get(row, "ID")
+        if qid.endswith(".0"):
+            qid = qid[:-2]
+        if fav_ids is not None:
+            favorite = qid in fav_ids
+        else:
+            favorite = get(row, "Favorite").lower() in ("yes", "y", "true", "1")
         if not args.all and not favorite and get(row, "Came from") != args.source:
             continue
         labels = []
@@ -105,19 +120,12 @@ def main():
                 unknown[raw] = unknown.get(raw, 0) + 1
             elif label not in labels:
                 labels.append(label)
-        qid = get(row, "ID")
-        if qid.endswith(".0"):
-            qid = qid[:-2]
         author = get(row, "Author")
         author = AUTHOR_NAMES.get(author, author)
         quotes.append({
             "id": qid,
             "text": text,
             "author": author,
-            "authorFilter": get(row, "Author (for filtering)") or author,
-            "attribution": get(row, "Attribution"),
-            "source": get(row, "Source"),
-            "link": get(row, "Link"),
             "labels": labels,
             "length": len(text),
             "favorite": favorite,
