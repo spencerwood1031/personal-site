@@ -243,8 +243,9 @@
   .q-labels a {
     color: var(--red); text-decoration: none; font-size: 11px; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase; margin-right: 14px; white-space: nowrap;
+    border-bottom: 2px solid var(--soft);
   }
-  .q-labels a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .q-labels a:hover { border-bottom-color: var(--red); }
   .q-back { display: inline-block; margin-bottom: 24px; text-decoration: none; color: var(--red);
     font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
   .q-back:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -847,39 +848,25 @@
 
   // Full archive: every quote, grouped under its author, A–Z
   function groupedArchive() {
+    // Each quote sits once, under its first (main) topic; its tags link to every topic it belongs to
     const groups = new Map();
     QUOTES.forEach(q => {
-      const name = q.author || "Unknown";
-      if (!groups.has(name)) groups.set(name, { title: name, quotes: [] });
-      groups.get(name).quotes.push(q);
+      const topic = q.labels[0] || "Other";
+      if (!groups.has(topic)) groups.set(topic, []);
+      groups.get(topic).push(q);
     });
-    const key = t => t.replace(/^[@"“'‘]+/, "").toLowerCase();
-    const sorted = [...groups.values()].sort((a, b) => key(a.title).localeCompare(key(b.title)));
-
     const wrap = el("div");
-    sorted.forEach(g => {
+    [...groups.keys()].sort((a, b) => a.localeCompare(b)).forEach(topic => {
       const sec = el("div", "q-group");
-      sec.appendChild(el("p", "q-group-title", g.title));
-      const ul = el("ul", "q-list");
-      g.quotes.forEach(q => {
-        const li = el("li");
-        const t = el("p", "q-text", q.text);
-        li.appendChild(t);
-        if (q.length > LONG) {
-          t.classList.add("clamp");
-          const b = el("button", "q-btn q-more", "Read more");
-          b.addEventListener("click", () => { b.textContent = t.classList.toggle("clamp") ? "Read more" : "Show less"; });
-          li.appendChild(b);
-        }
-        ul.appendChild(li);
-      });
-      sec.appendChild(ul);
+      sec.id = "topic-" + slug(topic);
+      sec.appendChild(el("p", "q-group-title", topic));
+      sec.appendChild(quoteList(groups.get(topic)));
       wrap.appendChild(sec);
     });
     return wrap;
   }
 
-  // Archive tab: search and topic menu on top; with nothing searched, every quote grouped by author
+  // Archive tab: search and topic menu on top; with nothing searched, every quote grouped by topic
   function renderArchive() {
     qView.appendChild(searchBox(groupedArchive()));
   }
