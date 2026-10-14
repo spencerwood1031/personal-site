@@ -181,6 +181,8 @@
   .q-tabs a.active { border-bottom-color: var(--red); }
   .q-intro { font-size: 15px; line-height: 1.6; }
   .q-intro + .q-intro { margin-top: 0.8em; }
+  /* "commonplace book" in the intro, styled like the tab headers */
+  .q-term { color: var(--red); font-weight: 700; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase; }
   .q-surprise-box .q-list { margin: 0; }
   .q-surprise-box .q-list li { border: 0; padding: 0; }
   .q-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
@@ -725,10 +727,13 @@
 
     // What a commonplace book is. Edit the wording here.
     const head = el("div");
+    const intro = el("p", "q-intro");
+    intro.append("The ", el("strong", "q-term", "commonplace book"),
+      " is a tradition stretching from antiquity through the Renaissance to Victorian England. " +
+      "It is a central repository for anything and everything useful, collecting quotes, equations, poems, " +
+      "and observations from one's reading and experience.");
     head.append(
-      el("p", "q-intro", "The commonplace book is a tradition stretching from antiquity through the Renaissance to Victorian England. " +
-        "It is a central repository for anything and everything useful, collecting quotes, equations, poems, " +
-        "and observations from one's reading and experience."),
+      intro,
       el("p", "q-intro", "This is my commonplace book, full of ideas I've found striking or challenging. " +
         "The inclusion of a quote does not necessarily mean I endorse it."));
 
