@@ -857,7 +857,6 @@
     const sorted = [...groups.values()].sort((a, b) => key(a.title).localeCompare(key(b.title)));
 
     const wrap = el("div");
-    wrap.appendChild(el("p", "q-count", "All " + QUOTES.length + " quotes, by author"));
     sorted.forEach(g => {
       const sec = el("div", "q-group");
       sec.appendChild(el("p", "q-group-title", g.title));
