@@ -182,6 +182,13 @@
   .q-intro { font-size: 15px; line-height: 1.6; }
   .q-intro + .q-intro { margin-top: 0.8em; }
   /* "commonplace book" in the intro, styled like the tab headers */
+  .q-what {
+    background: none; border: 0; border-bottom: 2px solid var(--soft); padding: 0; cursor: pointer; font: inherit;
+    color: var(--red); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .q-what:hover { border-bottom-color: var(--red); }
+  .q-note { margin-top: 18px; }
+  .q-history { padding-left: 14px; border-left: 2px solid var(--soft); }
   .q-term { color: var(--red); font-weight: 700; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase; }
   .q-surprise-box .q-list { margin: 0; }
   .q-surprise-box .q-list li { border: 0; padding: 0; }
@@ -735,17 +742,31 @@
     // Every quote in the collection rotates here
     const pool = QUOTES;
 
-    // What a commonplace book is. Edit the wording here.
+    // Intro: one line about this collection and a link that opens what a commonplace book is.
+    // Edit the wording here.
     const head = el("div");
-    const intro = el("p", "q-intro");
-    intro.append("The ", el("strong", "q-term", "commonplace book"),
-      " is a tradition stretching from antiquity through the Renaissance to Victorian England. " +
+    const mine = el("p", "q-intro");
+    mine.append("This is my ", el("strong", "q-term", "commonplace book"),
+      ", full of ideas I've found striking or challenging.");
+    const toggle = el("button", "q-what");
+    toggle.setAttribute("aria-expanded", "false");
+    const history = el("p", "q-intro q-history",
+      "The commonplace book is a tradition stretching from antiquity through the Renaissance to Victorian England. " +
       "It is a central repository for anything and everything useful, collecting quotes, equations, poems, " +
       "and observations from one's reading and experience.");
-    head.append(
-      intro,
-      el("p", "q-intro", "This is my commonplace book, full of ideas I've found striking or challenging."),
-      el("p", "q-intro", "Note: The inclusion of a quote does not necessarily mean I endorse it."));
+    history.hidden = true;
+    const setOpen = open => {
+      history.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = "What is a commonplace book? " + (open ? "−" : "+");
+    };
+    setOpen(false);
+    toggle.addEventListener("click", () => setOpen(history.hidden));
+    const whatLine = el("p", "q-intro");
+    whatLine.append(toggle);
+    head.append(mine, whatLine, history);
+    // The disclaimer sits under the quote
+    const note = el("p", "q-intro q-note", "Note: The inclusion of a quote does not necessarily mean I endorse it.");
 
     // One quote at a time
     const box = el("div", "q-feature");
@@ -786,7 +807,7 @@
     next.addEventListener("click", advance);
 
     box.appendChild(controls);
-    qView.append(head, box);
+    qView.append(head, box, note);
     if (pool.length) advance();
   }
 
