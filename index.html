@@ -183,10 +183,10 @@
   .q-intro + .q-intro { margin-top: 0.8em; }
   /* "commonplace book" in the intro, styled like the tab headers */
   .q-what {
-    background: none; border: 0; border-bottom: 2px solid var(--soft); padding: 0; cursor: pointer; font: inherit;
-    color: var(--red); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; line-height: inherit;
+    border-bottom: 2px dotted var(--red);
   }
-  .q-what:hover { border-bottom-color: var(--red); }
+  .q-what:hover { border-bottom-style: solid; }
   .q-note { margin-top: 18px; }
   .q-history { padding-left: 14px; border-left: 2px solid var(--soft); }
   .q-term { color: var(--red); font-weight: 700; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -742,13 +742,12 @@
     // Every quote in the collection rotates here
     const pool = QUOTES;
 
-    // Intro: one line about this collection and a link that opens what a commonplace book is.
+    // Intro: one line about this collection. "Commonplace book" in it is a button that opens what one is.
     // Edit the wording here.
     const head = el("div");
     const mine = el("p", "q-intro");
-    mine.append("This is my ", el("strong", "q-term", "commonplace book"),
-      ", full of ideas I've found striking or challenging.");
-    const toggle = el("button", "q-what");
+    const toggle = el("button", "q-term q-what");
+    mine.append("This is my ", toggle, ", full of ideas I've found striking or challenging.");
     toggle.setAttribute("aria-expanded", "false");
     const history = el("p", "q-intro q-history",
       "The commonplace book is a tradition stretching from antiquity through the Renaissance to Victorian England. " +
@@ -758,13 +757,11 @@
     const setOpen = open => {
       history.hidden = !open;
       toggle.setAttribute("aria-expanded", String(open));
-      toggle.textContent = "What is a commonplace book? " + (open ? "−" : "+");
+      toggle.textContent = "commonplace book " + (open ? "−" : "+");
     };
     setOpen(false);
     toggle.addEventListener("click", () => setOpen(history.hidden));
-    const whatLine = el("p", "q-intro");
-    whatLine.append(toggle);
-    head.append(mine, whatLine, history);
+    head.append(mine, history);
     // The disclaimer sits under the quote
     const note = el("p", "q-intro q-note", "Note: The inclusion of a quote does not necessarily mean I endorse it.");
 
