@@ -35,7 +35,7 @@ LABELS = [
     "Personal Finance", "Economics", "Sociology",
     "Decision-Making", "Productivity", "Psychology", "Motivation", "Mindset", "Communication",
     "Management", "Technology", "Leadership", "Philosophy", "Business", "Science", "Society", "Politics",
-    "Fitness", "Wellness",
+    "Fitness", "Wellness", "Poetry",
 ]
 # Quotes Spencer has asked to keep off the site, by ID
 EXCLUDE = {

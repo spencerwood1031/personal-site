@@ -1067,6 +1067,7 @@
   "text": "I wrote a pep talk recently to myself on a bar napkin: no matter which road you take, it will be both glorious and unbearable. Every road is lonely. Every road, holy. The only error is not walking forth. Yesterday, a friend in California, when giving me directions, told me I could take the trail toward the tall pines or turn left and find a field of poppies, growing gold and savage at the edge of the valley. When I asked which to choose, she simply shrugged and said: either way, it’s all heaven.",
   "author": "Joy Sullivan",
   "labels": [
+   "Poetry",
    "Life",
    "Philosophy"
   ],
@@ -1130,6 +1131,7 @@
   "text": "When my love swears that she is made of truth, I do believe her, though I know she lies, That she might think me some untutored youth, Unlearnèd in the world’s false subtleties. Thus vainly thinking that she thinks me young, Although she knows my days are past the best, Simply I credit her false-speaking tongue: On both sides thus is simple truth suppressed. But wherefore says she not she is unjust? And wherefore say not I that I am old? Oh, love’s best habit is in seeming trust, And age in love loves not to have years told. Therefore I lie with her and she with me, And in our faults by lies we flattered be.",
   "author": "William Shakespeare",
   "labels": [
+   "Poetry",
    "Relationships",
    "Beauty"
   ],
@@ -1755,6 +1757,7 @@
   "text": "We shall not cease from exploration\nAnd the end of all our exploring\nWill be to arrive where we started\nAnd know the place for the first time.",
   "author": "T.S. Eliot",
   "labels": [
+   "Poetry",
    "Life",
    "Philosophy"
   ],
@@ -2742,12 +2745,13 @@
  },
  {
   "id": "Q0001",
-  "text": "What are you looking for?\nIf not yourself, then those you adore\nBeauty amassed by lighting flashed\nPeeling away the burning flesh\nRaw and barren, sensitive to touch\nReddened by irritation – your brain\nKnows all those thoughts\nPassages bursting at the seams\nKnowledge becomes an unorganized crime\nAll will be seen in due time // Lay your head down here, my love\nRest, for there is nothing left to be done\nThe moon has showered us with her grace\nBask in forever’s wake\nTickled by dreams until the sun exposes\nAll that we did not take\nToday will smell of roses, I know it",
+  "text": "What are you looking for?\nIf not yourself, then those you adore\nBeauty amassed by lighting flashed\nPeeling away the burning flesh\nRaw and barren, sensitive to touch\nReddened by irritation – your brain\nKnows all those thoughts\nPassages bursting at the seams\nKnowledge becomes an unorganized crime\nAll will be seen in due time\n\nLay your head down here, my love\nRest, for there is nothing left to be done\nThe moon has showered us with her grace\nBask in forever’s wake\nTickled by dreams until the sun exposes\nAll that we did not take\nToday will smell of roses, I know it",
   "author": "Brooklyn Vintage Store",
   "labels": [
+   "Poetry",
    "Beauty"
   ],
-  "length": 568,
+  "length": 566,
   "favorite": false
  },
  {
@@ -2775,13 +2779,13 @@
  },
  {
   "id": "Q0006",
-  "text": "It is an uncontroversial fact that energy deregulation in the UK and parts of the US has failed: prices are both higher and more volatile than before the change . . . Although I am in favor of decentralized decision making and well-thought-out deregulation, four months of unconditional, self-righteous pro-market jingoism almost made a marxist-leninist out of me. // What Enron showed me was to prove that very good people can make very bad decisions, not because they are instructed to do so, but because of short-range interactions . . . To me, Enron’s failure was self-organizing bad behavior . . . my explanation is that Enron became very successful at something (gas trading) and as an organization it extrapolated that success could be achieved in anything it set its mind to. This enabled . . . . entrepreneurial hypertrophy, and associated excess risk taking; additionally, controls and processes were seen as obstacles.",
+  "text": "It is an uncontroversial fact that energy deregulation in the UK and parts of the US has failed: prices are both higher and more volatile than before the change . . . Although I am in favor of decentralized decision making and well-thought-out deregulation, four months of unconditional, self-righteous pro-market jingoism almost made a marxist-leninist out of me.\n\nWhat Enron showed me was to prove that very good people can make very bad decisions, not because they are instructed to do so, but because of short-range interactions . . . To me, Enron’s failure was self-organizing bad behavior . . . my explanation is that Enron became very successful at something (gas trading) and as an organization it extrapolated that success could be achieved in anything it set its mind to. This enabled . . . . entrepreneurial hypertrophy, and associated excess risk taking; additionally, controls and processes were seen as obstacles.",
   "author": "Giuseppe Paleologo",
   "labels": [
    "Business",
    "Economics"
   ],
-  "length": 929,
+  "length": 927,
   "favorite": false
  },
  {
@@ -3196,13 +3200,13 @@
  },
  {
   "id": "Q0052",
-  "text": "The rhythm of school and many jobs leads you to misunderstand how you feel about work. It’s not work you hate . . . it’s an impedance mismatch . . . You hate alarm clocks. Or commuting. Or taking orders. Or etc. // [In retirement] I started indulging a lot of latent urges that in prior times didn’t seem to have a point because I couldn’t see the payoff right away. I didn’t need a goal. I just fed a sense of growth and learning. I didn’t care that there was no obvious instrumental angle. // There are many ways to live . . . [ad man] Ogilvy quotes “Imagine the discipline it must take to leave the office right at 5pm.”",
+  "text": "The rhythm of school and many jobs leads you to misunderstand how you feel about work. It’s not work you hate . . . it’s an impedance mismatch . . . You hate alarm clocks. Or commuting. Or taking orders. Or etc.\n\n[In retirement] I started indulging a lot of latent urges that in prior times didn’t seem to have a point because I couldn’t see the payoff right away. I didn’t need a goal. I just fed a sense of growth and learning. I didn’t care that there was no obvious instrumental angle.\n\nThere are many ways to live . . . [ad man] Ogilvy quotes “Imagine the discipline it must take to leave the office right at 5pm.”",
   "author": "Kris Abdelmessih",
   "labels": [
    "Life",
    "Work"
   ],
-  "length": 623,
+  "length": 619,
   "favorite": false
  },
  {
@@ -3660,13 +3664,14 @@
  },
  {
   "id": "Q0102",
-  "text": "I am not a painter, I am a poet.\nWhy? I think I would rather be\na painter, but I am not. Well, // for instance, Mike Goldberg\nis starting a painting. I drop in.\n“Sit down and have a drink” he\nsays. I drink; we drink. I look\nup. “You have SARDINES in it.”\n“Yes, it needed something there.”\n“Oh.” I go and the days go by\nand I drop in again. The painting\nis going on, and I go, and the days\ngo by. I drop in. The painting is\nfinished. “Where’s SARDINES?”\nAll that’s left is just\nletters, “It was too much,” Mike says. // But me? One day I am thinking of\na color: orange. I write a line\nabout orange. Pretty soon it is a\nwhole page of words, not lines.\nThen another page. There should be\nso much more, not of orange, of\nwords, of how terrible orange is\nand life. Days go by. It is even in\nprose, I am a real poet. My poem\nis finished and I haven’t mentioned\norange yet. It’s twelve poems, I call\nit ORANGES. And one day in a gallery\nI see Mike’s painting, called SARDINES.",
+  "text": "I am not a painter, I am a poet.\nWhy? I think I would rather be\na painter, but I am not. Well,\n\nfor instance, Mike Goldberg\nis starting a painting. I drop in.\n“Sit down and have a drink” he\nsays. I drink; we drink. I look\nup. “You have SARDINES in it.”\n“Yes, it needed something there.”\n“Oh.” I go and the days go by\nand I drop in again. The painting\nis going on, and I go, and the days\ngo by. I drop in. The painting is\nfinished. “Where’s SARDINES?”\nAll that’s left is just\nletters, “It was too much,” Mike says.\n\nBut me? One day I am thinking of\na color: orange. I write a line\nabout orange. Pretty soon it is a\nwhole page of words, not lines.\nThen another page. There should be\nso much more, not of orange, of\nwords, of how terrible orange is\nand life. Days go by. It is even in\nprose, I am a real poet. My poem\nis finished and I haven’t mentioned\norange yet. It’s twelve poems, I call\nit ORANGES. And one day in a gallery\nI see Mike’s painting, called SARDINES.",
   "author": "Frank O’Hara",
   "labels": [
+   "Poetry",
    "Art",
    "Beauty"
   ],
-  "length": 969,
+  "length": 965,
   "favorite": false
  },
  {
@@ -3674,6 +3679,7 @@
   "text": "How, when the aged are reverently, passionately waiting\nFor the miraculous birth, there always must be\nChildren who did not specially want it to happen, skating\nOn a pond at the edge of the wood:",
   "author": "W. H. Auden",
   "labels": [
+   "Poetry",
    "Beauty",
    "Philosophy"
   ],
@@ -13237,6 +13243,173 @@
    "Motivation"
   ],
   "length": 292,
+  "favorite": false
+ },
+ {
+  "id": "Q1508",
+  "text": "How we spend our days is, of course, how we spend our lives.",
+  "author": "Annie Dillard",
+  "labels": [
+   "Life",
+   "Habits"
+  ],
+  "length": 60,
+  "favorite": false
+ },
+ {
+  "id": "Q1509",
+  "text": "I have discovered that all the unhappiness of men arises from one single fact, that they cannot stay quietly in their own chamber.",
+  "author": "Blaise Pascal",
+  "labels": [
+   "Philosophy",
+   "Mindset"
+  ],
+  "length": 130,
+  "favorite": false
+ },
+ {
+  "id": "Q1510",
+  "text": "The best way to find out if you can trust somebody is to trust them.",
+  "author": "Ernest Hemingway",
+  "labels": [
+   "Relationships",
+   "Character"
+  ],
+  "length": 68,
+  "favorite": false
+ },
+ {
+  "id": "Q1511",
+  "text": "Nothing in life is as important as you think it is, while you are thinking about it.",
+  "author": "Daniel Kahneman",
+  "labels": [
+   "Psychology",
+   "Mindset"
+  ],
+  "length": 84,
+  "favorite": false
+ },
+ {
+  "id": "Q1512",
+  "text": "The first principle is that you must not fool yourself — and you are the easiest person to fool.",
+  "author": "Richard Feynman",
+  "labels": [
+   "Science",
+   "Decision-Making"
+  ],
+  "length": 96,
+  "favorite": false
+ },
+ {
+  "id": "Q1513",
+  "text": "If I had to live my life again, I would have made a rule to read some poetry and listen to some music at least once every week; for perhaps the parts of my brain now atrophied would thus have been kept active through use. The loss of these tastes is a loss of happiness, and may possibly be injurious to the intellect, and more probably to the moral character, by enfeebling the emotional part of our nature.",
+  "author": "Charles Darwin",
+  "labels": [
+   "Art",
+   "Life"
+  ],
+  "length": 408,
+  "favorite": false
+ },
+ {
+  "id": "Q1514",
+  "text": "I went to the woods because I wished to live deliberately, to front only the essential facts of life, and see if I could not learn what it had to teach, and not, when I came to die, discover that I had not lived. I did not wish to live what was not life, living is so dear; nor did I wish to practise resignation, unless it was quite necessary.",
+  "author": "Henry David Thoreau",
+  "labels": [
+   "Life",
+   "Philosophy"
+  ],
+  "length": 344,
+  "favorite": false
+ },
+ {
+  "id": "Q1515",
+  "text": "This is what you shall do: Love the earth and sun and the animals, despise riches, give alms to every one that asks, stand up for the stupid and crazy, devote your income and labor to others, hate tyrants, argue not concerning God, have patience and indulgence toward the people, take off your hat to nothing known or unknown or to any man or number of men . . . re-examine all you have been told at school or church or in any book, dismiss whatever insults your own soul, and your very flesh shall be a great poem.",
+  "author": "Walt Whitman",
+  "labels": [
+   "Life",
+   "Character"
+  ],
+  "length": 515,
+  "favorite": false
+ },
+ {
+  "id": "Q1516",
+  "text": "Could the young but realize how soon they will become mere walking bundles of habits, they would give more heed to their conduct while in the plastic state. We are spinning our own fates, good or evil, and never to be undone.",
+  "author": "William James",
+  "labels": [
+   "Habits",
+   "Psychology"
+  ],
+  "length": 225,
+  "favorite": false
+ },
+ {
+  "id": "Q1517",
+  "text": "Nothing, Lucilius, is ours, except time. We were entrusted by nature with the ownership of this single thing, so fleeting and slippery that anyone who will can oust us from possession.",
+  "author": "Seneca",
+  "labels": [
+   "Life",
+   "Philosophy"
+  ],
+  "length": 184,
+  "favorite": false
+ },
+ {
+  "id": "Q1518",
+  "text": "Begin the morning by saying to thyself, I shall meet with the busy-body, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil.",
+  "author": "Marcus Aurelius",
+  "labels": [
+   "Philosophy",
+   "Relationships"
+  ],
+  "length": 215,
+  "favorite": false
+ },
+ {
+  "id": "Q1519",
+  "text": "It is easy in the world to live after the world’s opinion; it is easy in solitude to live after our own; but the great man is he who in the midst of the crowd keeps with perfect sweetness the independence of solitude.",
+  "author": "Ralph Waldo Emerson",
+  "labels": [
+   "Character",
+   "Mindset"
+  ],
+  "length": 217,
+  "favorite": false
+ },
+ {
+  "id": "Q1520",
+  "text": "It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; who errs, who comes short again and again . . . and who at the worst, if he fails, at least fails while daring greatly, so that his place shall never be with those cold and timid souls who neither know victory nor defeat.",
+  "author": "Theodore Roosevelt",
+  "labels": [
+   "Character",
+   "Motivation"
+  ],
+  "length": 499,
+  "favorite": false
+ },
+ {
+  "id": "Q1521",
+  "text": "Out of the night that covers me,\nBlack as the pit from pole to pole,\nI thank whatever gods may be\nFor my unconquerable soul.\n\nIn the fell clutch of circumstance\nI have not winced nor cried aloud.\nUnder the bludgeonings of chance\nMy head is bloody, but unbowed.\n\nBeyond this place of wrath and tears\nLooms but the Horror of the shade,\nAnd yet the menace of the years\nFinds, and shall find me, unafraid.\n\nIt matters not how strait the gate,\nHow charged with punishments the scroll,\nI am the master of my fate,\nI am the captain of my soul.",
+  "author": "William Ernest Henley",
+  "labels": [
+   "Poetry",
+   "Character",
+   "Motivation"
+  ],
+  "length": 536,
+  "favorite": false
+ },
+ {
+  "id": "Q1522",
+  "text": "Nature’s first green is gold,\nHer hardest hue to hold.\nHer early leaf’s a flower;\nBut only so an hour.\nThen leaf subsides to leaf.\nSo Eden sank to grief,\nSo dawn goes down to day.\nNothing gold can stay.",
+  "author": "Robert Frost",
+  "labels": [
+   "Poetry",
+   "Beauty",
+   "Life"
+  ],
+  "length": 202,
   "favorite": false
  }
 ]
