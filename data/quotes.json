@@ -13511,5 +13511,49 @@
   ],
   "length": 73,
   "favorite": false
+ },
+ {
+  "id": "Q1532",
+  "text": "Never give in, never give in, never, never, never, never — in nothing, great or small, large or petty — never give in except to convictions of honour and good sense.",
+  "author": "Winston Churchill",
+  "labels": [
+   "Character",
+   "Motivation"
+  ],
+  "length": 165,
+  "favorite": false
+ },
+ {
+  "id": "Q1533",
+  "text": "I have nothing to offer but blood, toil, tears and sweat.",
+  "author": "Winston Churchill",
+  "labels": [
+   "Leadership",
+   "Character"
+  ],
+  "length": 57,
+  "favorite": false
+ },
+ {
+  "id": "Q1534",
+  "text": ". . . we shall fight on the beaches, we shall fight on the landing grounds, we shall fight in the fields and in the streets, we shall fight in the hills; we shall never surrender . . .",
+  "author": "Winston Churchill",
+  "labels": [
+   "Character",
+   "Leadership"
+  ],
+  "length": 184,
+  "favorite": false
+ },
+ {
+  "id": "Q1535",
+  "text": "Never in the field of human conflict was so much owed by so many to so few.",
+  "author": "Winston Churchill",
+  "labels": [
+   "Leadership",
+   "Character"
+  ],
+  "length": 75,
+  "favorite": false
  }
 ]
