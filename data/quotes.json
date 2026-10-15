@@ -13423,5 +13423,93 @@
   ],
   "length": 449,
   "favorite": false
+ },
+ {
+  "id": "Q1524",
+  "text": "Everybody has a plan until they get punched in the mouth.",
+  "author": "Mike Tyson",
+  "labels": [
+   "Decision-Making",
+   "Mindset"
+  ],
+  "length": 57,
+  "favorite": false
+ },
+ {
+  "id": "Q1525",
+  "text": "I suppose it is tempting, if the only tool you have is a hammer, to treat everything as if it were a nail.",
+  "author": "Abraham Maslow",
+  "labels": [
+   "Psychology",
+   "Decision-Making"
+  ],
+  "length": 106,
+  "favorite": false
+ },
+ {
+  "id": "Q1526",
+  "text": "Injustice anywhere is a threat to justice everywhere.",
+  "author": "Martin Luther King Jr.",
+  "labels": [
+   "Politics",
+   "Society"
+  ],
+  "length": 53,
+  "favorite": false
+ },
+ {
+  "id": "Q1527",
+  "text": "If I have seen further it is by standing on the shoulders of Giants.",
+  "author": "Isaac Newton",
+  "labels": [
+   "Science",
+   "Learning"
+  ],
+  "length": 68,
+  "favorite": false
+ },
+ {
+  "id": "Q1528",
+  "text": "Life can only be understood backwards; but it must be lived forwards.",
+  "author": "Søren Kierkegaard",
+  "labels": [
+   "Life",
+   "Philosophy"
+  ],
+  "length": 69,
+  "favorite": false
+ },
+ {
+  "id": "Q1529",
+  "text": "We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard; because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one we intend to win.",
+  "author": "John F. Kennedy",
+  "labels": [
+   "Motivation",
+   "Science"
+  ],
+  "length": 332,
+  "favorite": false
+ },
+ {
+  "id": "Q1530",
+  "text": "So, first of all, let me assert my firm belief that the only thing we have to fear is fear itself — nameless, unreasoning, unjustified terror which paralyzes needed efforts to convert retreat into advance.",
+  "author": "Franklin D. Roosevelt",
+  "labels": [
+   "Politics",
+   "Mindset"
+  ],
+  "length": 205,
+  "favorite": false
+ },
+ {
+  "id": "Q1531",
+  "text": "To live is the rarest thing in the world. Most people exist, that is all.",
+  "author": "Oscar Wilde",
+  "labels": [
+   "Life",
+   "Philosophy"
+  ],
+  "length": 73,
+  "favorite": false
  }
 ]
