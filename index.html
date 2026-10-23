@@ -106,7 +106,7 @@
   .post figure { margin: 26px 0; }
   .post figure img { display: block; width: 100%; height: auto; }
   .post figure img + img { margin-top: 10px; }
-  .post h3 { margin: 30px 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
+  .post h3 { margin: 30px 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
   .post ul { padding-left: 20px; }
   .post ul ul { margin-top: 8px; }
   .post li + li { margin-top: 8px; }
@@ -115,11 +115,19 @@
   .post .post-reveal { margin: 1.2em 0 !important; font-size: 26px; line-height: 1.2; font-weight: 800; font-style: italic; color: var(--red); }
   .post em.k { color: var(--red); }
   .post sup { font-size: 10px; line-height: 0; }
-  .post .fn { color: var(--red); font-weight: 700; text-decoration: none; cursor: pointer; padding: 0 1px; }
-  .post .fn:hover { text-decoration: underline; }
+  .post .fn { color: var(--red); text-decoration: none; cursor: pointer; padding: 0 1px; }
+  .post .fn:hover, .post .fn.open { text-decoration: underline; }
+  /* Footnote preview (Substack-style): shows on hover with a mouse, on tap on a phone */
+  .fn-pop { position: absolute; z-index: 20; max-width: min(360px, calc(100vw - 32px)); padding: 12px 14px;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--red); box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    font-size: 13px; line-height: 1.55; }
+  .fn-pop a { color: var(--red); overflow-wrap: anywhere; }
+  .fn-pop .fn-num { color: var(--red); margin-right: 6px; }
+  .fn-pop .fn-more { display: block; margin-top: 6px; font-size: 12px; }
+  .post-notes .fn-back { margin-left: 6px; color: var(--red); text-decoration: none; }
   .post-notes { margin-top: 40px; padding: 20px 0 0 20px; border-top: 1px solid var(--red); }
   .post-notes li { font-size: 13px !important; line-height: 1.55 !important; }
-  .post-notes li::marker { color: var(--red); font-weight: 700; }
+  .post-notes li::marker { color: var(--red); font-weight: 400; }
   .post-notes a { color: var(--red); overflow-wrap: anywhere; }
   .post-video { position: relative; margin-top: 12px; aspect-ratio: 16 / 9; }
   .post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -405,17 +413,16 @@
     <section id="articles">
       <ul class="list" data-article="">
         <li>
-          <a href="#articles/1543"><span class="title">1543</span></a>
-          <span class="meta">October 2026</span>
-          <span class="note">Knowable Unknowns</span>
-        </li>
-        <li>
           <span class="title">Retaining Non-Fiction Content</span>
           <span class="meta">Coming Soon</span>
         </li>
         <li>
           <span class="title">Asymmetric Bets</span>
           <span class="meta">Coming Soon</span>
+        </li>
+        <li>
+          <a href="#articles/1543"><span class="title">1543</span></a>
+          <span class="meta">October 2026</span>
         </li>
         <li>
           <a href="state-of-affairs.html"><span class="title">State of Affairs - Winter 2026</span></a>
@@ -1038,10 +1045,52 @@
     document.querySelectorAll("section").forEach(s => s.classList.toggle("active", s.id === t));
     document.querySelectorAll("nav a").forEach(a => a.classList.toggle("active", a.dataset.tab === t));
   }
-  document.addEventListener("click", e => {
-    const fn = e.target.closest(".post .fn");
-    if (fn) document.getElementById(fn.dataset.to)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  // Footnotes: hovering a number (mouse) or tapping it (touch) shows the note in a small box;
+  // clicking with a mouse jumps to the note at the bottom. Each note links back up with ↩.
+  const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  let pop = null, popFor = null, hideTimer;
+  const closePop = () => { pop?.remove(); popFor?.classList.remove("open"); pop = popFor = null; };
+  const goTo = id => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  function openPop(fn) {
+    if (popFor === fn) return;
+    closePop();
+    const note = document.getElementById(fn.dataset.to); if (!note) return;
+    pop = document.createElement("div"); pop.className = "fn-pop"; popFor = fn; fn.classList.add("open");
+    const body = note.cloneNode(true);
+    body.querySelectorAll(".post-video, .fn-back").forEach(el => el.remove());
+    pop.innerHTML = `<span class="fn-num">${fn.textContent}</span>${body.innerHTML}`;
+    if (note.querySelector(".post-video")) pop.insertAdjacentHTML("beforeend", `<a class="fn-more" href="#" data-go="${note.id}">Watch the video below ↓</a>`);
+    document.body.appendChild(pop);
+    const r = fn.getBoundingClientRect(), w = pop.offsetWidth;
+    pop.style.left = Math.max(16, Math.min(r.left + scrollX - w / 2, document.documentElement.clientWidth - w - 16)) + "px";
+    pop.style.top = (r.bottom + scrollY + 8) + "px";
+    pop.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+    pop.addEventListener("mouseleave", () => { hideTimer = setTimeout(closePop, 200); });
+  }
+  document.querySelectorAll(".post-notes li[id]").forEach(li => {
+    const ref = document.querySelector(`.post .fn[data-to="${li.id}"]`);
+    if (!ref) return;
+    ref.id = ref.id || "ref-" + li.id;
+    const back = document.createElement("a"); back.className = "fn-back"; back.href = "#"; back.textContent = "↩";
+    back.setAttribute("aria-label", "Back to text"); back.dataset.go = ref.id;
+    li.insertBefore(back, li.querySelector(".post-video"));   // before the video, or at the end
   });
+  if (canHover) {
+    document.addEventListener("mouseover", e => { const fn = e.target.closest(".post .fn"); if (fn) { clearTimeout(hideTimer); openPop(fn); } });
+    document.addEventListener("mouseout", e => { if (e.target.closest(".post .fn")) hideTimer = setTimeout(closePop, 200); });
+  }
+  document.addEventListener("click", e => {
+    const go = e.target.closest("[data-go]");
+    if (go) { e.preventDefault(); closePop(); goTo(go.dataset.go); return; }
+    const fn = e.target.closest(".post .fn");
+    if (fn) {
+      if (canHover) { closePop(); goTo(fn.dataset.to); }
+      else popFor === fn ? closePop() : openPop(fn);
+      return;
+    }
+    if (pop && !e.target.closest(".fn-pop")) closePop();
+  });
+  addEventListener("hashchange", closePop);
   window.addEventListener("hashchange", show);
   show();
 </script>
