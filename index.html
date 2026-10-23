@@ -95,6 +95,35 @@
   p + p { margin-top: 1em; }
   .lede { font-weight: 500; font-size: 20px; line-height: 1.35; margin-bottom: 1em; }
 
+  /* Full articles (#articles/<name>): the site's type and colors, red for headings and the key moments */
+  .post-back { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--red) !important; }
+  .post-back:hover { text-decoration: underline; }
+  .post-title { margin: 22px 0 0; font-size: 38px; font-weight: 800; line-height: 1; letter-spacing: -0.01em; color: var(--red); }
+  .post-sub { margin-top: 10px !important; font-size: 18px; font-style: italic; }
+  .post-date { margin: 14px 0 30px !important; padding-bottom: 18px; border-bottom: 2px solid var(--red);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
+  .post p, .post li { font-size: 16px; line-height: 1.65; }
+  .post figure { margin: 26px 0; }
+  .post figure img { display: block; width: 100%; height: auto; }
+  .post figure img + img { margin-top: 10px; }
+  .post h3 { margin: 30px 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
+  .post ul { padding-left: 20px; }
+  .post ul ul { margin-top: 8px; }
+  .post li + li { margin-top: 8px; }
+  .post li::marker { color: var(--red); }
+  .post h3 + ul + p, .post ul + p { margin-top: 1.4em; }
+  .post .post-reveal { margin: 1.2em 0 !important; font-size: 26px; line-height: 1.2; font-weight: 800; font-style: italic; color: var(--red); }
+  .post em.k { color: var(--red); }
+  .post sup { font-size: 10px; line-height: 0; }
+  .post .fn { color: var(--red); font-weight: 700; text-decoration: none; cursor: pointer; padding: 0 1px; }
+  .post .fn:hover { text-decoration: underline; }
+  .post-notes { margin-top: 40px; padding: 20px 0 0 20px; border-top: 1px solid var(--red); }
+  .post-notes li { font-size: 13px !important; line-height: 1.55 !important; }
+  .post-notes li::marker { color: var(--red); font-weight: 700; }
+  .post-notes a { color: var(--red); overflow-wrap: anywhere; }
+  .post-video { position: relative; margin-top: 12px; aspect-ratio: 16 / 9; }
+  .post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
   /* Lists (books, articles): one per line, title then author */
   /* Bookshelf: dotted-leader list with covers; hovering a book shows it large on the right */
   main:has(#books.active) { max-width: 900px; }
@@ -374,9 +403,9 @@
 
     <!-- ARTICLES -->
     <section id="articles">
-      <ul class="list">
+      <ul class="list" data-article="">
         <li>
-          <a href="https://spencerjwood.substack.com/p/1543"><span class="title">1543</span></a>
+          <a href="#articles/1543"><span class="title">1543</span></a>
           <span class="meta">October 2026</span>
           <span class="note">Knowable Unknowns</span>
         </li>
@@ -401,6 +430,76 @@
         </li>
         -->
       </ul>
+
+      <!-- Full articles, shown at #articles/<name>. Images live in articles/<name>/. -->
+      <article class="post" data-article="1543" hidden>
+        <a class="post-back" href="#articles">&larr; Articles</a>
+        <h2 class="post-title">1543</h2>
+        <p class="post-sub">Knowable Unknowns</p>
+        <p class="post-date">October 22, 2026</p>
+
+        <p>As an avid soccer<sup><a class="fn" data-to="fn1">1</a></sup> fan who has been subjected to one too many Fermi estimation questions, I found myself wondering how many men have experienced the dream of every young boy and scored a goal in the FIFA World Cup Finals.</p>
+        <figure><img src="articles/1543/texts-with-dad.jpg" alt="Text messages with my dad: he estimates 23 World Cups times 40 different scorers, so 920" loading="lazy"></figure>
+        <p>Weirdly enough, my quick google search did not instantly produce a result. The closest I got was an out-of-date estimate from Wikipedia.</p>
+        <figure>
+          <img src="articles/1543/wikipedia-estimate.jpg" alt="Wikipedia: nearly 1,300 footballers have scored goals at the World Cup tournaments [needs update]" loading="lazy">
+          <img src="articles/1543/wikipedia-footnote.jpg" alt="Wikipedia's source for the estimate, archived 19 December 2022" loading="lazy">
+        </figure>
+        <p>C’mon now. This is 2026 and we really don’t have this statistic easily accessible? I decided to give it a crack myself. I asked Claude for help finding a complete dataset of World Cup goals and was referred to this beautiful work by Josh Fjelstul:<sup><a class="fn" data-to="fn2">2</a></sup></p>
+        <figure><img src="articles/1543/fjelstul-database.jpg" alt="The Fjelstul World Cup Database" loading="lazy"></figure>
+        <p>However, it was only updated through 2022. I pulled 2026 stats from Mart Jürisoo’s international results dataset<sup><a class="fn" data-to="fn3">3</a></sup> and integrated the two datasets in one Excel sheet.<sup><a class="fn" data-to="fn4">4</a></sup> From there, it was trivial to calculate the stats, but first, I wanted to establish the criteria and perform a few reviews.</p>
+        <p>Some edge cases I examined:</p>
+
+        <h3>Name-matching within Fjelstul’s dataset</h3>
+        <ul>
+          <li>There are a few instances with different goalscorers who have overlapping or identical names. For example:
+            <ul>
+              <li><em>Andoni Goikoetxea</em> Olaskoaga (Spanish defender, 1986 goalscorer)<br><em>Andoni Goikoetxea</em> Lasa (Spanish winger, 1994 goalscorer)</li>
+              <li><em>József Tóth</em> (Hungarian forward, 1954 goalscorer)<br><em>József Tóth</em> (Hungarian defender, 1982 goalscorer)</li>
+            </ul>
+          </li>
+          <li>In each of these cases I confirmed that the players are each labeled with a unique “player_id” to prevent undercounting</li>
+        </ul>
+
+        <h3>Integrating Jürisoo’s 2026 dataset</h3>
+        <ul>
+          <li>Another opportunity for potential name-matching issues was carrying over the “player_id” for 2026 goalscorers who had scored in previous tournaments
+            <ul>
+              <li>I manually spot-checked some, then had Claude run additional checks - which caught some undercounting</li>
+              <li>There are two separate “Teboho Mokoena”s to score for South Africa in the World Cup, one in 2002 and the other in 2026. The original integration counted them as a single player but the extra agent intervention fixed this</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3>Own goals</h3>
+        <ul>
+          <li>For the purposes of counting total goalscorers I chose to omit players whose only goal was an own goal</li>
+        </ul>
+
+        <h3>Disputed goalscorers</h3>
+        <ul>
+          <li>Famous examples of disputed goals including a deflected Brazilian strike in 1950 that various outlets attributed to either Ademir or as an own goal.<sup><a class="fn" data-to="fn5">5</a></sup> Eventually the goal was credited to Ademir, giving him his 9th of the tournament</li>
+          <li>In these instances I ensured that the dataset reflected FIFA’s most recent ruling</li>
+        </ul>
+
+        <p>With the rules established and the edge cases sorted out, it’s time for the big reveal:</p>
+        <p class="post-reveal">1,543 men have scored at the FIFA World Cup</p>
+        <p>A few other interesting facts:</p>
+        <p>There have been 3,028 goals (of those, 68 own goals), meaning the 1,543 goalscorers have averaged 1.92 goals each. No surprise, the median is 1 goal per player, with 62% of goalscorers only scoring once.</p>
+        <p>In the Women’s World Cup, across fewer iterations there have been 1,081 goals among 450 goal scorers.</p>
+        <p>I’ll give my dad a B- on his estimate. Right order of magnitude, but too low (average of 79 goalscorers per tournament vs 40 estimated) and his method did not account for players who scored in multiple tournaments.</p>
+        <p>Now, although this is an interesting tidbit of trivia that was fun to calculate, I think this mini-exercise illustrates a fascinating element of the (Artificial) Intelligence Age - <em class="k">knowable</em> <em class="u">unknowns</em>. This took me all-in-all less than an hour, including my manual reviews, which arguably could’ve also been outsourced. The immense backlog of World Cup data meant that this number was obviously <em class="k">knowable</em>, but it was <em class="u">unknown</em>, simply because no one had calculated it. Nowadays, the alpha is no longer trawling through the archives to make it <em class="k">known</em>, as AI will do that for you. Rather, the human value-add is strategic, determining which <em class="u">unknowns</em> should be <em class="k">known</em>.</p>
+
+        <ol class="post-notes">
+          <li id="fn1">Much as I cherish my British heritage, I regrettably use the American term</li>
+          <li id="fn2">Source: <a href="https://github.com/jfjelstul/worldcup">https://github.com/jfjelstul/worldcup</a></li>
+          <li id="fn3">Source: <a href="https://github.com/martj42/international_results">https://github.com/martj42/international_results</a></li>
+          <li id="fn4">I chose to build off Fjelstul’s dataset because of its inclusion of unique player identifiers</li>
+          <li id="fn5">Take a look at Ademir’s deflected strike and let me know your verdict! The goal is at 0:19 seconds. This was the best footage I could find and it’s incredibly hard to determine. I’m interested if anyone has come across clearer footage.
+            <div class="post-video"><iframe src="https://www.youtube-nocookie.com/embed/e5X4MlR0noM" title="WC 1950 Brazil vs Spain" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+          </li>
+        </ol>
+      </article>
     </section>
     <!-- QUOTES (filled in from data/quotes.json; rebuild that file with scripts/build_quotes.py) -->
     <section id="quotes">
@@ -928,10 +1027,21 @@
     const route = location.hash.slice(1), base = route.split("/")[0];
     const t = tabs.includes(base) ? base : "about";
     if (t === "quotes") { showQuotes(route); if (route.includes("/")) scrollTo(0, 0); }
+    if (t === "articles") {
+      // #articles shows the list; #articles/<name> shows that article in place of the list
+      const name = route.split("/")[1] || "";
+      const pick = document.querySelector(`#articles [data-article="${name}"]`) ? name : "";
+      document.querySelectorAll("#articles [data-article]").forEach(el => el.hidden = el.dataset.article !== pick);
+      scrollTo(0, 0);
+    }
     else clearInterval(rotateTimer);
     document.querySelectorAll("section").forEach(s => s.classList.toggle("active", s.id === t));
     document.querySelectorAll("nav a").forEach(a => a.classList.toggle("active", a.dataset.tab === t));
   }
+  document.addEventListener("click", e => {
+    const fn = e.target.closest(".post .fn");
+    if (fn) document.getElementById(fn.dataset.to)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
   window.addEventListener("hashchange", show);
   show();
 </script>
