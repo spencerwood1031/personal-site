@@ -110,7 +110,11 @@
   .post li + li { margin-top: 8px; }
   .post li::marker { color: var(--ink); }
   .post h3 + ul + p, .post ul + p { margin-top: 1.4em; }
-  .post .post-reveal { margin: 1.2em 0 !important; font-size: 26px; line-height: 1.2; font-weight: 800; font-style: italic; color: var(--red); }
+  /* The big reveal: the answer the whole article builds to, in a red box */
+  .post .post-reveal { margin: 1.6em 0 !important; padding: 26px 20px; border: 2px solid var(--red); text-align: center; line-height: 1.2; font-weight: 800; color: var(--red); }
+  .post .post-reveal .big { display: block; font-size: 72px; line-height: 1; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .post .post-reveal .rest { display: block; font-size: 18px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em; }
+  @media (max-width: 860px) { .post .post-reveal .big { font-size: 56px; } .post .post-reveal .rest { font-size: 14px; } }
   .post em.k { color: var(--red); }
   .post sup { font-size: 10px; line-height: 0; }
   .post .fn { color: var(--red); text-decoration: none; cursor: pointer; padding: 0 1px; }
@@ -122,10 +126,12 @@
   .fn-pop a { color: var(--red); overflow-wrap: anywhere; }
   .fn-pop .fn-num { color: var(--red); margin-right: 6px; }
   .fn-pop .fn-more { display: block; margin-top: 6px; font-size: 12px; }
-  .post-notes .fn-back { margin-left: 6px; color: var(--red); text-decoration: none; }
+  .post-notes { list-style: none; padding-left: 0 !important; }
+  .post-notes li { position: relative; padding-left: 22px; }
+  .post-notes .fn-back { position: absolute; left: 0; color: var(--red); text-decoration: none; }
+  .post-notes .fn-back:hover { text-decoration: underline; }
   .post-notes { margin-top: 40px; padding: 20px 0 0 20px; border-top: 1px solid var(--red); }
   .post-notes li { font-size: 13px !important; line-height: 1.55 !important; }
-  .post-notes li::marker { color: var(--red); font-weight: 400; }
   .post-notes a { color: var(--red); overflow-wrap: anywhere; }
   .post-video { position: relative; margin-top: 12px; aspect-ratio: 16 / 9; }
   .post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -486,7 +492,7 @@
         </ul>
 
         <p>With the rules established and the edge cases sorted out, it’s time for the big reveal:</p>
-        <p class="post-reveal">1,543 men have scored at the FIFA World Cup</p>
+        <p class="post-reveal"><span class="big">1,543</span><span class="rest">men have scored at the FIFA World Cup</span></p>
         <p>A few other interesting facts:</p>
         <p>There have been 3,028 goals (of those, 68 own goals), meaning the 1,543 goalscorers have averaged 1.92 goals each. No surprise, the median is 1 goal per player, with 62% of goalscorers only scoring once.</p>
         <p>In the Women’s World Cup, across fewer iterations there have been 1,081 goals among 450 goal scorers.</p>
@@ -1067,9 +1073,10 @@
     const ref = document.querySelector(`.post .fn[data-to="${li.id}"]`);
     if (!ref) return;
     ref.id = ref.id || "ref-" + li.id;
-    const back = document.createElement("a"); back.className = "fn-back"; back.href = "#"; back.textContent = "↩";
+    // The note's own number links back up to where it appears in the text
+    const back = document.createElement("a"); back.className = "fn-back"; back.href = "#"; back.textContent = ref.textContent + ".";
     back.setAttribute("aria-label", "Back to text"); back.dataset.go = ref.id;
-    li.insertBefore(back, li.querySelector(".post-video"));   // before the video, or at the end
+    li.prepend(back);
   });
   if (canHover) {
     document.addEventListener("mouseover", e => { const fn = e.target.closest(".post .fn"); if (fn) { clearTimeout(hideTimer); openPop(fn); } });
