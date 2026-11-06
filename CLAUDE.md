@@ -24,3 +24,14 @@ Spencer is in New York. Commit in his time zone so GitHub puts the work on the r
 ```
 TZ=America/New_York git commit --author="spencerwood1031 <spencerwood1031@gmail.com>" -m "..."
 ```
+
+## Publishing
+
+When Spencer asks for a change to the site (or says anything along those lines), make it and
+publish it to main right away; no need to ask first. If he's choosing between options, show
+the options before publishing.
+
+## Quotes
+
+Never change the wording of a quote. Copy it exactly as written in the source, even if it reads
+oddly. Point out problems and let Spencer decide.
