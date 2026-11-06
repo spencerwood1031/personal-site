@@ -40,7 +40,6 @@ LABELS = [
 # Quotes Spencer has asked to keep off the site, by ID
 EXCLUDE = {
     "Q0074",  # reflexivity definition credited to Claude
-    "Q0471",  # Tetlock line that starts with "Because" and needs its question
 }
 # X/Instagram handles shown under the person's real name, so their quotes group together.
 # Handles left out of this list stay as @handle (real name not widely known).
