@@ -33,5 +33,7 @@ the options before publishing.
 
 ## Quotes
 
-Never change the wording of a quote. Copy it exactly as written in the source, even if it reads
-oddly. Point out problems and let Spencer decide.
+Never change the wording of a quote on your own. Copy it exactly as written in the source, even if
+it reads oddly. Point out problems and let Spencer decide. Trims for brevity or style are fine only
+when Spencer approves them and they are marked the standard way: … for cut words, [ ] for changed
+or added words. Show him the full quote and the proposed version before publishing.
