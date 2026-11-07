@@ -15,7 +15,7 @@ Options:
     --all            ignore "Came from" and use every row
     --out PATH       where to write (default: data/quotes.json)
 
-Only the quote, author, topics, length and favorite flag are published; source, link and the
+Only the quote, title (optional "Title" column), author, topics, length and favorite flag are published; source, link and the
 private columns (My notes, Context, Screenshot file) are never copied.
 Needs openpyxl:  python3 -m pip install openpyxl
 """
@@ -122,8 +122,11 @@ def main():
                 labels.append(label)
         author = get(row, "Author")
         author = AUTHOR_NAMES.get(author, author)
+        entry = {"id": qid}
+        if get(row, "Title"):
+            entry["title"] = get(row, "Title")  # e.g. a poem's title, shown above the quote
         quotes.append({
-            "id": qid,
+            **entry,
             "text": text,
             "author": author,
             "labels": labels,

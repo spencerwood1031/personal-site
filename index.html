@@ -259,6 +259,7 @@
   .q-feature .q-text { font-size: 18px; line-height: 1.5; }
   .q-feature .q-text.clamp { -webkit-line-clamp: 6; }
   .q-text { white-space: pre-line; overflow-wrap: break-word; }
+  .q-title { font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.85em; margin: 0 0 10px; }
   .q-text.clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
   .q-by { font-size: 15px; margin-top: 14px; }
   .q-by .src { font-style: italic; }
@@ -832,6 +833,7 @@
   }
   function quoteItem(q) {
     const li = el("li");
+    if (q.title) li.appendChild(el("p", "q-title", q.title));
     const t = el("p", "q-text", q.text);
     li.appendChild(t);
     if (q.length > LONG) {
@@ -901,6 +903,7 @@
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const put = q => {
       body.innerHTML = "";
+      if (q.title) body.appendChild(el("p", "q-title", q.title));
       const t = el("p", "q-text", q.text);
       body.appendChild(t);
       if (q.length > LONG) {
@@ -960,7 +963,7 @@
       if (!words.length && !qSearch.label) { n.textContent = ""; out.replaceChildren(idle); return; }
       const list = QUOTES.filter(q =>
         (!qSearch.label || q.labels.includes(qSearch.label)) &&
-        words.every(w => norm(q.text + " " + q.author).includes(w)));
+        words.every(w => norm((q.title || "") + " " + q.text + " " + q.author).includes(w)));
       n.textContent = list.length + (list.length === 1 ? " quote" : " quotes");
       out.replaceChildren(quoteList(list));
     };
