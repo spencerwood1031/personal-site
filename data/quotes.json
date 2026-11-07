@@ -13667,5 +13667,27 @@
   ],
   "length": 68,
   "favorite": false
+ },
+ {
+  "id": "Q1546",
+  "text": "Prevent before the cure, habilitate before the re.",
+  "author": "Matthew McConaughey",
+  "labels": [
+   "Habits",
+   "Life"
+  ],
+  "length": 50,
+  "favorite": false
+ },
+ {
+  "id": "Q1547",
+  "text": "Style is knowing who you are, what you want to say, and not giving a damn.",
+  "author": "Gore Vidal",
+  "labels": [
+   "Character",
+   "Art"
+  ],
+  "length": 74,
+  "favorite": false
  }
 ]
