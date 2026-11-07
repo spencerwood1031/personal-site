@@ -15,7 +15,7 @@ Options:
     --all            ignore "Came from" and use every row
     --out PATH       where to write (default: data/quotes.json)
 
-Only the quote, title (optional "Title" column), author, topics, length and favorite flag are published; source, link and the
+Only the quote, title (optional "Title" column), pair (optional "Pair" column: the ID of a partner quote), author, topics, length and favorite flag are published; source, link and the
 private columns (My notes, Context, Screenshot file) are never copied.
 Needs openpyxl:  python3 -m pip install openpyxl
 """
@@ -132,6 +132,7 @@ def main():
             "labels": labels,
             "length": len(text),
             "favorite": favorite,
+            **({"pair": get(row, "Pair")} if get(row, "Pair") else {}),  # ID of a quote to show side by side with this one
         })
 
     out = Path(args.out)

@@ -290,6 +290,13 @@
   .q-list li { padding: 22px 0; border-top: 1px solid rgba(0, 0, 0, 0.15); }
   .q-list .q-text { font-size: 17px; line-height: 1.5; }
   .q-list .q-by { font-size: 14px; margin-top: 8px; }
+  .q-list li.q-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .q-pair-half { min-width: 0; }
+  .q-pair-half + .q-pair-half { border-left: 1px solid rgba(0, 0, 0, 0.15); padding-left: 32px; }
+  @media (max-width: 700px) {
+    .q-list li.q-pair { grid-template-columns: 1fr; gap: 22px; }
+    .q-pair-half + .q-pair-half { border-left: 0; padding-left: 0; border-top: 1px solid rgba(0, 0, 0, 0.15); padding-top: 22px; }
+  }
   .q-labels { margin-top: 8px; }
   .q-labels a {
     color: var(--red); text-decoration: none; font-size: 11px; font-weight: 700;
@@ -831,11 +838,11 @@
     q.labels.forEach(l => { const a = el("a", null, l); a.href = labelHref(l); d.appendChild(a); });
     return d;
   }
-  function quoteItem(q) {
-    const li = el("li");
-    if (q.title) li.appendChild(el("p", "q-title", q.title));
+  // One quote's title, text, byline and topic links, added to the given box
+  function quoteContent(q, box) {
+    if (q.title) box.appendChild(el("p", "q-title", q.title));
     const t = el("p", "q-text", q.text);
-    li.appendChild(t);
+    box.appendChild(t);
     if (q.length > LONG) {
       t.classList.add("clamp");
       const b = el("button", "q-btn q-more", "Read more");
@@ -843,15 +850,30 @@
         const open = t.classList.toggle("clamp");
         b.textContent = open ? "Read more" : "Show less";
       });
-      li.appendChild(b);
+      box.appendChild(b);
     }
-    li.append(byline(q), labelLinks(q));
+    box.append(byline(q), labelLinks(q));
+  }
+  // A quote with a "pair" in the data shows side by side with its partner (stacked on phones)
+  const partnerOf = q => q.pair && QUOTES.find(x => x.id === q.pair);
+  function quoteItem(q) {
+    const li = el("li");
+    const p = partnerOf(q);
+    if (!p) { quoteContent(q, li); return li; }
+    li.className = "q-pair";
+    [q, p].forEach(x => { const half = el("div", "q-pair-half"); quoteContent(x, half); li.appendChild(half); });
     return li;
   }
   function quoteList(list) {
     if (!list.length) return el("p", "q-empty", "No quotes match.");
     const ul = el("ul", "q-list");
-    list.forEach(q => ul.appendChild(quoteItem(q)));
+    const done = new Set();
+    list.forEach(q => {
+      if (done.has(q.id)) return;
+      done.add(q.id);
+      if (q.pair) done.add(q.pair);
+      ul.appendChild(quoteItem(q));
+    });
     return ul;
   }
 
@@ -1020,7 +1042,9 @@
         surpriseDeck = QUOTES.slice();
         for (let i = surpriseDeck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [surpriseDeck[i], surpriseDeck[j]] = [surpriseDeck[j], surpriseDeck[i]]; }
       }
-      body.replaceChildren(quoteList([surpriseDeck.pop()]));
+      const q = surpriseDeck.pop();
+      if (q.pair) surpriseDeck = surpriseDeck.filter(x => x.id !== q.pair);   // its partner shows with it
+      body.replaceChildren(quoteList([q]));
     };
     again.addEventListener("click", show);
     box.append(body, controls);
