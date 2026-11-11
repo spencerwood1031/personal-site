@@ -5097,26 +5097,6 @@
   "favorite": false
  },
  {
-  "id": "Q0373",
-  "text": "One of the authors of this very piece has even argued that liquid prediction markets could give such good information about the future that, instead of trying to figure out the probability of future events ourselves, we should simply defer our beliefs to prediction markets.",
-  "author": "Nick Whitaker and J. Zachary Mazlish",
-  "labels": [
-   "Trading"
-  ],
-  "length": 274,
-  "favorite": false
- },
- {
-  "id": "Q0374",
-  "text": "We think that you can classify people who trade on markets into three groups, but each is largely uninterested in prediction markets.\nSavers: who enter markets to build wealth. Prediction markets are not a natural savings device.\nGamblers: who enter markets for thrills. Prediction markets are not a natural gambling device, due to various factors including their long time horizons and often esoteric topics.\nSharps: who enter markets to profit from superior analysis. Without savers or gamblers, sharps who might enter the market to profit off superior analysis are not interested in participating.",
-  "author": "Nick Whitaker and J. Zachary Mazlish",
-  "labels": [
-   "Trading"
-  ],
-  "length": 600,
-  "favorite": false
- },
- {
   "id": "Q0378",
   "text": "Much of the volume that exists on financial markets comes from money that is not attempting to beat the market by correcting pricing errors (like an asset that is underpriced compared to its likely returns), but money that wants to be in a market for other reasons, like investing in companies that will deliver a long-run return (as savers do), or making a sports event more exciting (as gamblers do). In both instances, market participants’ demands are relatively inelastic.",
   "author": "Nick Whitaker and J. Zachary Mazlish",
@@ -5125,16 +5105,6 @@
    "Economics"
   ],
   "length": 476,
-  "favorite": false
- },
- {
-  "id": "Q0379",
-  "text": "There is one important reason that prediction markets are not used by savers, and probably never will be. Prediction markets, unlike most asset markets, are zero-sum – in fact they are negative-sum, once you factor in platform fees.",
-  "author": "Nick Whitaker and J. Zachary Mazlish",
-  "labels": [
-   "Trading"
-  ],
-  "length": 232,
   "favorite": false
  },
  {
@@ -5148,16 +5118,6 @@
   "favorite": false
  },
  {
-  "id": "Q0381",
-  "text": "The hope of the prediction markets on everything vision is that true sharps would emerge in the form of hedge funds or other trading firms – professionals who would spend all their time investigating the probabilities of these events. These new entrants could create liquid markets with the efficiency found in asset markets. But since prediction markets lack savers – who flood security markets with capital and create profit opportunities – this never happens.",
-  "author": "Nick Whitaker and J. Zachary Mazlish",
-  "labels": [
-   "Trading"
-  ],
-  "length": 462,
-  "favorite": false
- },
- {
   "id": "Q0382",
   "text": "If all traders in a market are rational, and it is common knowledge among all traders that they are all rational, then no trades happen.",
   "author": "Nick Whitaker and J. Zachary Mazlish",
@@ -5166,17 +5126,6 @@
    "Trading"
   ],
   "length": 136,
-  "favorite": false
- },
- {
-  "id": "Q0383",
-  "text": "By themselves, we do not expect prediction markets to grow much beyond their current state. But prediction markets might work with subsidies, where money is added to the market to pay for information gathering. . . . Instead, we must recognize that good information about the future is costly to come by, and we must be willing to purchase or create incentives to elicit that information.",
-  "author": "Nick Whitaker and J. Zachary Mazlish",
-  "labels": [
-   "Trading",
-   "Economics"
-  ],
-  "length": 388,
   "favorite": false
  },
  {

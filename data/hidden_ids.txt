@@ -1,0 +1,8 @@
+# Quotes hidden from the site but kept in the Master sheet.
+# Delete a line (or this whole file) to bring a quote back on the next rebuild.
+# Prediction-market quotes, hidden 2026-11-11 while Spencer applies for jobs in the industry:
+Q0373
+Q0374
+Q0379
+Q0381
+Q0383

@@ -95,6 +95,9 @@ def main():
 
     fav_file = Path(args.out).parent / "favorite_ids.txt"
     fav_ids = set(fav_file.read_text().split()) if fav_file.exists() else None
+    # Quotes kept in the sheet but left off the site for now: IDs in data/hidden_ids.txt ("#" starts a comment)
+    hide_file = Path(args.out).parent / "hidden_ids.txt"
+    hidden = {l.split("#")[0].strip() for l in hide_file.read_text().splitlines()} - {""} if hide_file.exists() else set()
 
     quotes, unknown = [], {}
     for row in rows:
@@ -104,6 +107,8 @@ def main():
         qid = get(row, "ID")
         if qid.endswith(".0"):
             qid = qid[:-2]
+        if qid in hidden:
+            continue
         if fav_ids is not None:
             favorite = qid in fav_ids
         else:
